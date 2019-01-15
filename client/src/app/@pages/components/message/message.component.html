@@ -1,0 +1,66 @@
+<div class="pgn push-on-sidebar-open pgn-{{_options.Style}}">
+  <div class="alert alert-{{Message.type}}  p-t-10 p-b-5">
+    <div
+      *ngIf="_options.Style === 'bar'; else determineBlock"
+      [class.container]="_enableHorizontalContainer"
+    >
+      <div>
+        <span>{{ Message.content }}</span>
+        <button
+          class="close"
+          (click)="onClickClose()"
+          type="button"
+        ><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+      </div>
+    </div>
+    <ng-template #determineBlock>
+      <div *ngIf="_options.Style === 'circle'; else standardBlock">
+        <div class="pgn-thumbnail">
+          <div>
+            <img
+              alt=""
+              height="40"
+              src="{{_options.imgURL}}"
+              style="display: inline-block;"
+              width="40"
+            >
+          </div>
+        </div>
+        <div class="pgn-message">
+          <div>
+            <p class="bold">{{ _options.Title}}</p>
+            <p>{{ Message.content }}</p>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="close"
+          (click)="onClickClose()"
+        ><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+      </div>
+    </ng-template>
+    <ng-template #standardBlock>
+      <div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <p
+              class="bold pull-left"
+              *ngIf="_options.Title"
+            >{{ _options.Title}}</p>
+            <button
+              class="close pull-right"
+              (click)="onClickClose()"
+              type="button"
+            ><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <p>{{ Message.content }}</p>
+          </div>
+
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

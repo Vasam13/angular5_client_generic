@@ -1,0 +1,25 @@
+export default class ClientsType {
+ constructor(
+   public clientId?: number,
+   public clientName?: string,
+   public contactName?: string,
+   public emailAddress?: string,
+   public phone1CountryCode?: string,
+   public phone1Number?: string,
+   public phone1Ext?: string,
+   public phone2CountryCode?: string,
+   public phone2Number?: string,
+   public phone2Ext?: string,
+   public website?: string,
+   public addressLine1?: string,
+   public addressLine2?: string,
+   public city?: string,
+   public state?: string,
+   public country?: string,
+   public zip?: string,
+   public createDate?: Date,
+   public createUserId?: number,
+   public updateDate?: Date,
+   public updateUserId?: number,
+   public $operation$?: string) {} 
+ }

@@ -1,0 +1,102 @@
+<div class="card card-transparent m-b-10 m-t-10">
+  <div class="card-body p-l-30 p-b-0 p-r-30 p-t-0">
+    <h4 class="page-title inline btn-rounded m-b-0 m-t-5">
+      <em class="icon-note"></em>&nbsp;Global Templates </h4>
+
+    <button
+      class="btn btn-primary btn-cons pull-right m-b-10"
+      (click)="templatesStore.deleteSelected()"
+    >
+      <em class="icon-trash"></em>&nbsp;Delete</button>
+    <button
+      class="btn btn-primary btn-cons pull-right m-b-10"
+      (click)="templatesStore.save()"
+    >
+      <em class="icon-folder"></em>&nbsp;Save</button>
+    <button
+      class="btn btn-primary btn-cons pull-right m-b-10"
+      (click)="templatesStore.insertRow()"
+    >
+      <em class="icon-plus"></em>&nbsp;New</button>
+  </div>
+</div>
+
+<pg-container extraHorizontalClass="bg-white">
+  <div class="card card-default">
+    <div class="card-header p-t-10">
+      <div class="pull-right">
+        <div class="col-xs-12">
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="card-body p-l-0 p-r-0">
+      <app-grid [store]="templatesStore"></app-grid>
+    </div>
+  </div>
+</pg-container>
+
+<div
+  bsModal
+  #contentModal="bs-modal"
+  class="modal fade slide-up disable-scroll"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="false"
+>
+  <div class="modal-dialog modal-lg xl-lg">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 m-t-20">
+              <form *ngIf="templatesStore.getCurrentRow()">
+                <div class="row">
+                  <div class="col-md-12">
+                    <label>Title</label>
+                    <div class="form-group">
+                      <textarea
+                        type="text"
+                        class="form-control"
+                        name="tiltle"
+                        placeholder="Enter a title"
+                        rows="1"
+                        [(ngModel)]="templatesStore.getCurrentRow().title"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <label>Content</label>
+                    <div class="form-group">
+                      <div class="wysiwyg5-wrapper b-a b-grey wysiwug">
+                        <quill-editor
+                          [style]="{height: '200px'}"
+                          placeholder="Enter content"
+                          [modules]="editorModules"
+                          [(ngModel)]="templatesStore.getCurrentRow().content"
+                          [ngModelOptions]="{standalone: true}"
+                        >
+                        </quill-editor>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 m-t-10  text-center">
+              <button
+                class="btn btn-tag btn-complete  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="contentModal.hide()"
+                type="button"
+              >Ok</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

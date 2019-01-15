@@ -1,0 +1,836 @@
+<pg-container
+  extraHorizontalClass="p-l-0 p-r-0"
+  extraClass="sm-p-l-0 sm-p-r-0"
+>
+  <div
+    class="inner"
+    pg-parallax
+  >
+    <ol class="breadcrumb">
+      <li
+        class="breadcrumb-item breadcrumb-last-link"
+        (click)="gotoSales()"
+      >Sales</li>
+      <li class="breadcrumb-item active">New Lead</li>
+    </ol>
+  </div>
+</pg-container>
+<div class="row">
+  <div class="col-md-12 p-l-35 p-r-35">
+    <div class="card card-transparent">
+      <div class="card-body p-t-0">
+        <form
+          #form="ngForm"
+          id="new-client-form"
+          role="form"
+          autocomplete="on"
+          [formGroup]="salesForm"
+        >
+
+          <!-- Client information-->
+          <p>
+            <em class="icon-user m-l-5"></em>&nbsp;&nbsp;Client Details </p>
+          <div
+            class="form-group-attached"
+            formGroupName="clientDetails"
+          >
+            <div class="row clearfix">
+              <div class="col-md-12">
+                <div
+                  class="form-group form-group-default required"
+                  [class.has-error]="isFieldValid(0, 'clientId')"
+                >
+                  <label>Client</label>
+                  <pg-select
+                    style="width: 100%;"
+                    formControlName="clientId"
+                    (OpenChange)="onClientChange($event)"
+                    [PlaceHolder]="'Select Option'"
+                    AllowClear
+                    ShowSearch
+                    required
+                  >
+                    <pg-option
+                      *ngFor="let client of clientStore.rows"
+                      [Label]="client.clientName"
+                      [Value]="client.clientId"
+                    > </pg-option>
+                  </pg-select>
+                </div>
+              </div>
+            </div>
+            <div class="row clearfix">
+              <div class="col-md-4">
+                <div class="form-group form-group-default">
+                  <label>Contact Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="contactName"
+                    formControlName="contactName"
+                    readonly
+                  > </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-group-default">
+                  <label>Email</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="emailAddress"
+                    formControlName="emailAddress"
+                    readonly
+                  > </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-group-default">
+                  <label>Website</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="website"
+                    formControlName="website"
+                    readonly
+                  > </div>
+              </div>
+            </div>
+
+            <div class="row clearfix">
+              <div class="col-md-4">
+                <div class="form-group form-group-default">
+                  <label>Country Code</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="phone1CountryCode"
+                    formControlName="phone1CountryCode"
+                    readonly
+                  > </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-group-default">
+                  <label>Phone Number 1</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="phone1Number"
+                    formControlName="phone1Number"
+                    readonly
+                  >
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-group-default">
+                  <label>Extension</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="phone1Extension"
+                    formControlName="phone1Ext"
+                    readonly
+                  > </div>
+              </div>
+            </div>
+            <div class="row clearfix">
+              <div class="col-md-4">
+                <div class="form-group form-group-default">
+                  <label>Country Code</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="phone2CountryCode"
+                    formControlName="phone2CountryCode"
+                    readonly
+                  > </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-group-default">
+                  <label>Phone Number 2</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="phone2Number"
+                    formControlName="phone2Number"
+                    readonly
+                  > </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-group-default">
+                  <label>Extension</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="phone2Extension"
+                    formControlName="phone2Ext"
+                    readonly
+                  > </div>
+              </div>
+            </div>
+
+            <!-- Client Address form -->
+            <div class="row clearfix">
+              <div class="col-md-6">
+                <div class="form-group form-group-default">
+                  <label>Address Line1</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="addressLine1"
+                    formControlName="addressLine1"
+                    readonly
+                  >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group form-group-default">
+                  <label>Address Line2</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="addressLine2"
+                    formControlName="addressLine2"
+                    readonly
+                  > </div>
+              </div>
+            </div>
+            <div class="row clearfix">
+              <div class="col-md-6">
+                <div class="form-group form-group-default">
+                  <label>Country</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="addressLine2"
+                    formControlName="country"
+                    readonly
+                  >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group form-group-default">
+                  <label>State</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="state"
+                    formControlName="state"
+                    readonly
+                  > </div>
+              </div>
+            </div>
+            <div class="row clearfix">
+              <div class="col-md-6">
+                <div class="form-group form-group-default required">
+                  <label>City</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="city"
+                    formControlName="city"
+                    readonly
+                  >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group form-group-default">
+                  <label>Zip</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="zip"
+                    formControlName="zip"
+                    readonly
+                  > </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- End of Client information-->
+
+          <!-- Lead/Project information-->
+          <p class="m-t-30">
+            <em class="icon-grid  m-l-5"></em>&nbsp;&nbsp;Project Information</p>
+
+
+          <div
+            class="form-group-attached"
+            formGroupName="projectDetails"
+          >
+
+            <div class="row clearfix">
+              <div class="col-md-12">
+                <div
+                  class="form-group form-group-default required"
+                  [class.has-error]="isFieldValid(1, 'projectName')"
+                >
+                  <label>Project name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="projectName"
+                    formControlName="projectName"
+                    required
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="row clearfix">
+              <div class="col-md-6">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default required"
+                  [class.has-error]="isFieldValid(1, 'projectContactName')"
+                >
+                  <label>Contact Preson</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="projectContactName"
+                    formControlName="projectContactName"
+                    required
+                  >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default"
+                >
+                  <label>Email Address</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="projectContactEmail"
+                    formControlName="projectContactEmail"
+                  > </div>
+              </div>
+            </div>
+
+            <div class="row clearfix">
+              <div class="col-md-4">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default"
+                >
+                  <label>Country Code</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="projectPhone1CountryCode"
+                    formControlName="projectPhone1CountryCode"
+                  > </div>
+              </div>
+              <div class="col-md-4">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default required"
+                  [class.has-error]="isFieldValid(1, 'projectPhone1Number')"
+                >
+                  <label>Phone Number 1</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="projectPhone1Number"
+                    formControlName="projectPhone1Number"
+                    required
+                  >
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default"
+                >
+                  <label>Extension</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="projectPhone1Ext"
+                    formControlName="projectPhone1Ext"
+                  > </div>
+              </div>
+            </div>
+
+            <div class="row clearfix">
+              <div class="col-md-4">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default"
+                >
+                  <label>Country Code</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="projectPhone2CountryCode"
+                    formControlName="projectPhone2CountryCode"
+                  > </div>
+              </div>
+              <div class="col-md-4">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default"
+                >
+                  <label>Phone Number 2</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="projectPhone2Number"
+                    formControlName="projectPhone2Number"
+                  > </div>
+              </div>
+              <div class="col-md-4">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default"
+                >
+                  <label>Extension</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="projectPhone2Ext"
+                    formControlName="projectPhone2Ext"
+                  > </div>
+              </div>
+            </div>
+
+            <div class="row clearfix">
+              <div class="col-md-6">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default required"
+                  [class.has-error]="isFieldValid(1, 'projectAddressLine1')"
+                >
+                  <label>Address Line1</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="projectAddressLine1"
+                    formControlName="projectAddressLine1"
+                    required
+                  >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default"
+                >
+                  <label>Address Line2</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="projectAddressLine2"
+                    formControlName="projectAddressLine2"
+                  > </div>
+              </div>
+            </div>
+
+            <div class="row clearfix">
+              <div class="col-md-6">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default required"
+                  [class.has-error]="isFieldValid(1, 'projectCountry')"
+                >
+                  <label>Country</label>
+                  <pg-select
+                    (OpenChange)="onCountryChange($event)"
+                    style="width: 100%;"
+                    formControlName="projectCountry"
+                    [PlaceHolder]="'Select Option'"
+                    AllowClear
+                    ShowSearch
+                    required
+                  >
+                    <pg-option
+                      *ngFor="let country of countryStore.rows"
+                      [Label]="country.name"
+                      [Value]="country.name"
+                    > </pg-option>
+                  </pg-select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default required"
+                  [class.has-error]="isFieldValid(1, 'projectState')"
+                >
+                  <label>State</label>
+                  <pg-select
+                    style="width: 100%;"
+                    (OpenChange)="onStateChange($event)"
+                    formControlName="projectState"
+                    [PlaceHolder]="'Select Option'"
+                    AllowClear
+                    ShowSearch
+                    required
+                  >
+                    <pg-option
+                      *ngFor="let state of statesStore.rows"
+                      [Label]="state.name"
+                      [Value]="state.name"
+                    > </pg-option>
+                  </pg-select>
+                </div>
+              </div>
+            </div>
+            <div class="row clearfix">
+              <div class="col-md-6">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default required"
+                  [class.has-error]="isFieldValid(1, 'projectCity')"
+                >
+                  <label>
+                    <div>
+                      <span>City</span>
+                      <span
+                        (click)="openNewCityPopup()"
+                        class="add-new-option-link"
+                      >
+                        Not found? Click here
+                      </span>
+                    </div>
+                  </label>
+                  <pg-select
+                    style="width: 100%;"
+                    formControlName="projectCity"
+                    [PlaceHolder]="'Select Option'"
+                    AllowClear
+                    ShowSearch
+                    required
+                  >
+                    <pg-option
+                      *ngFor="let city of citiesStore.rows"
+                      [Label]="city.name"
+                      [Value]="city.name"
+                    > </pg-option>
+                  </pg-select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default"
+                >
+                  <label>Zip</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="projectZip"
+                    formControlName="projectZip"
+                  > </div>
+              </div>
+            </div>
+          </div>
+          <!-- End of Lead/ Project information-->
+
+          <!-- Bid Information-->
+          <p class="m-t-30">
+            <em class="icon-layers  m-l-5"></em>&nbsp;&nbsp;Bid Details</p>
+          <div
+            class="form-group-attached"
+            formGroupName="projectDetails"
+          >
+
+            <div class="row clearfix">
+              <div class="col-md-12">
+                <div class="form-group form-group-default form-group-default-select2">
+                  <label style="width:100%">
+                    <div>
+                      <span>Requirements</span>
+                      <span
+                        *ngIf="!readOnlyBidDetails()"
+                        (click)="newRequirement=null;newBidDetailPopup.show()"
+                        class="add-new-option-link"
+                      >
+                        Add new option
+                      </span>
+                    </div>
+                  </label>
+                  <pg-select
+                    style="width: 100%;"
+                    [Mode]="'multiple'"
+                    formControlName="bidType"
+                  >
+                    <pg-option
+                      *ngFor="let value of requirements"
+                      [Label]="value"
+                      [Value]="value"
+                    > </pg-option>
+                  </pg-select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row clearfix">
+              <div class="col-md-6">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default"
+                >
+                  <label>Received Date</label>
+                  <pg-datepicker
+                    formControlName="bidReceivedDate"
+                    readonly="false"
+                  ></pg-datepicker>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default"
+                >
+                  <label>Due Date</label>
+                  <pg-datepicker
+                    [Format]="'DD-MM-YYYY'"
+                    formControlName="bidDueDate"
+                  ></pg-datepicker>
+                </div>
+              </div>
+            </div>
+
+            <div class="row clearfix">
+              <div class="col-md-6">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default"
+                >
+                  <label>Documents Path</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="documentPath"
+                    formControlName="documentPath"
+                  >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default"
+                >
+                  <label>Documents Received</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="documentReceived"
+                    formControlName="documentReceived"
+                  >
+                </div>
+              </div>
+            </div>
+            <div
+              class="row clearfix"
+              *ngIf="isSalesManager()"
+            >
+              <div class="col-md-12">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default"
+                >
+                  <label>Executive</label>
+                  <pg-select
+                    style="width: 100%;"
+                    formControlName="executive"
+                    [PlaceHolder]="'Select Option'"
+                    AllowClear
+                    ShowSearch
+                  >
+                    <pg-option
+                      *ngFor="let salesPerson of salesPersonStore.rows"
+                      [Label]="salesPerson.displayName"
+                      [Value]="salesPerson.userId"
+                    > </pg-option>
+                  </pg-select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row clearfix">
+              <div class="col-md-12">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default"
+                >
+                  <!-- [class.has-error]="isFieldValid(1, 'estimateLead')" -->
+                  <label>Estimator</label>
+                  <pg-select
+                    style="width: 100%;"
+                    formControlName="estimateLead"
+                    [PlaceHolder]="'Select Option'"
+                    AllowClear
+                    ShowSearch
+                  >
+                    <pg-option
+                      *ngFor="let estimationLead of estimationLeadsStore.rows"
+                      [Label]="estimationLead.displayName"
+                      [Value]="estimationLead.userId"
+                    > </pg-option>
+                  </pg-select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row clearfix">
+              <div class="col-md-12">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default"
+                >
+                  <label>Remarks</label>
+                  <textarea
+                    type="text"
+                    class="form-control"
+                    name="salesRemarks"
+                    formControlName="salesRemarks"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- End Bid Information-->
+
+          <!-- Submit buttons-->
+          <div class="row clearfix m-t-20">
+            <div class="col-sm-12 col-lg-12 col-md-12 text-center">
+              <button
+                class="btn btn-rounded btn-primary m-r-10"
+                (click)="save('draft')"
+                [disabled]="isPageBusy()"
+              ><em class="icon-folder"></em>&nbsp;Save as Draft</button>
+              <button
+                class="btn btn-rounded btn-primary m-r-10"
+                (click)="save('publish')"
+                [disabled]="isPageBusy()"
+              ><em class="icon-share-alt"></em>&nbsp;Publish</button>
+              <button
+                class="btn btn-rounded btn-primary m-r-10"
+                (click)="save('sendForEstimate')"
+                [disabled]="isPageBusy()"
+              ><em class="icon-share"></em>&nbsp;Send for Estimation</button>
+            </div>
+          </div>
+
+          <!-- End Submit buttons-->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  bsModal
+  #addNewCityModal="bs-modal"
+  class="modal fade slide-up disable-scroll"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="false"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 m-t-20">
+              <form>
+                <div class="row">
+                  <div class="col-md-12">
+                    <label>
+                      Add New City
+                    </label>
+                    <div class="
+                          form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="remarks"
+                        placeholder="Enter City Name"
+                        [(ngModel)]="newCityEntered"
+                      >
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 m-t-10  text-center">
+              <button
+                class="btn btn-tag btn-complete  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="addNewCity()"
+                type="button"
+                [disabled]="!newCityEntered || citiesStore.isBusy"
+              >Save</button>
+              <button
+                class="btn btn-tag btn-complete  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="addNewCityModal.hide()"
+                type="button"
+              >Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div
+  bsModal
+  #newBidDetailPopup="bs-modal"
+  class="modal fade slide-up disable-scroll"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="false"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 m-t-20">
+              <form>
+                <div class="row">
+                  <div class="col-md-12">
+                    <label>
+                      Add new option
+                    </label>
+                    <div class="
+                          form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter option"
+                        [(ngModel)]="newRequirement"
+                        [ngModelOptions]="{standalone: true}"
+                      >
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 m-t-10  text-center">
+              <button
+                class="btn btn-tag btn-complete  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="addNewRequirement()"
+                [disabled]="!newRequirement"
+                type="button"
+              >Save</button>
+              <button
+                class="btn btn-tag btn-complete  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="newBidDetailPopup.hide()"
+                type="button"
+              >Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

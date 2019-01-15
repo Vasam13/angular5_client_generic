@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Angular5 Generic Client",
+      "type": "node",
+      "request": "launch",
+      "args": ["src/index.ts"],
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register",
+        "-r",
+        "tsconfig-paths/register"
+      ],
+      "cwd": "${workspaceFolder}/client",
+      "protocol": "inspector",
+      "internalConsoleOptions": "openOnSessionStart",
+      "outputCapture": "std",
+      "restart": true,
+      "sourceMaps": true
+    }
+  ]
+}

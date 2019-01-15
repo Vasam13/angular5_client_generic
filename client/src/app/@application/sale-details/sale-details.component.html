@@ -1,0 +1,1647 @@
+<div
+  class="commentbox-handle"
+  (click)="showComments = !showComments"
+>
+  <em class="icon-bubbles"></em>
+</div>
+<div class="full-height">
+  <div class="split-view">
+    <div
+      class="split-list conversion-box"
+      [class.slideLeft]="selectedConv"
+      *ngIf="showComments"
+    >
+      <a
+        class="list-refresh comments-close"
+        (click)="showComments = !showComments"
+      >
+        <i
+          class="icon-close"
+          style="font-weight: bold"
+        ></i>
+      </a>
+      <div
+        class="no-conversations"
+        *ngIf="conversations.length === 0"
+      >
+        <em
+          class="icon-bubbles"
+          style="font-size: 36px"
+        ></em>
+        <p>No conversations are found</p>
+      </div>
+      <pg-list-view-container class="scrollable full-height">
+        <pg-list-item *ngFor="let emailGroup of conversations">
+          <ng-template #ItemHeading>
+            {{emailGroup.group}}
+          </ng-template>
+          <li
+            class="item padding-15"
+            *ngFor="let item of emailGroup.list"
+            (click)="onSelect(item)"
+            [class.active]="item === selectedConv"
+          >
+            <div class="thumbnail-wrapper d32 circular"><img
+                alt=""
+                height="40"
+                [src]="getUserPicUrl(item.createUserId)"
+                width="40"
+              ></div>
+            <div class="checkbox no-margin p-l-10">
+              <input
+                id="emailcheckbox-0-{{item.id}}"
+                type="checkbox"
+                value="1"
+              > <label for="emailcheckbox-0-{{item.id}}"></label>
+            </div>
+            <div class="inline m-l-15">
+              <p class="recipients no-margin hint-text small">{{item.userName}}</p>
+              <p class="subject no-margin">{{item.comment}}</p>
+              <!-- <p
+                class="body no-margin"
+                innerHTML="{{item.comment}}"
+              ></p> -->
+            </div>
+            <div class="datetime">
+              {{item.time}}
+            </div>
+            <div class="clearfix"></div>
+          </li>
+        </pg-list-item>
+      </pg-list-view-container>
+
+    </div>
+    <div
+      class="comment-box-layout"
+      *ngIf="showComments"
+    >
+      <textarea
+        row="1"
+        placeholder="Write your comment"
+        class="comment-box"
+        [(ngModel)]="currentComment"
+      ></textarea>
+      <div class="comment-box-send-div">
+        <button
+          class="btn btn-sm  btn-rounded btn-primary"
+          [disabled]="!currentComment || currentComment.trim().length === 0 || salesCommentsStore.isBusy"
+          (click)="sendComment()"
+        >Send</button>
+      </div>
+    </div>
+    <div
+      class="split-details"
+      style="overflow-x: hidden;"
+    >
+      <pg-container
+        extraHorizontalClass="p-l-0 p-r-0"
+        extraClass="sm-p-l-0 sm-p-r-0"
+      >
+        <div
+          class="inner"
+          pg-parallax
+        >
+          <ol class="breadcrumb">
+            <li
+              class="breadcrumb-item breadcrumb-last-link"
+              (click)="gotoSales()"
+            >Sales</li>
+            <li class="breadcrumb-item active"># {{saleId}}</li>
+          </ol>
+        </div>
+      </pg-container>
+      <div class="row">
+        <div class="col-md-12 p-l-35 p-r-35">
+          <div class="card card-transparent">
+            <div class="card-body p-t-0">
+              <form
+                #form="ngForm"
+                id="new-client-form"
+                role="form"
+                autocomplete="on"
+                [formGroup]="salesForm"
+              >
+
+                <!-- Client information-->
+                <p>
+                  <em class="icon-user m-l-5"></em>&nbsp;&nbsp;Client Details </p>
+                <div
+                  formGroupName="clientDetails"
+                  class="form-group-attached"
+                >
+                  <div class="row clearfix">
+                    <div class="col-md-12">
+                      <div class="form-group form-group-default required">
+                        <label>Client</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="clientName"
+                          formControlName="clientName"
+                          readonly
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row clearfix">
+                    <div class="col-md-4">
+                      <div class="form-group form-group-default">
+                        <label>Contact Name</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="contactName"
+                          formControlName="contactName"
+                          readonly
+                        > </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group form-group-default">
+                        <label>Email</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="emailAddress"
+                          formControlName="emailAddress"
+                          readonly
+                        > </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group form-group-default">
+                        <label>Website</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="website"
+                          formControlName="website"
+                          readonly
+                        > </div>
+                    </div>
+                  </div>
+
+                  <div class="row clearfix">
+                    <div class="col-md-4">
+                      <div class="form-group form-group-default">
+                        <label>Country Code</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="phone1CountryCode"
+                          formControlName="phone1CountryCode"
+                          readonly
+                        > </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group form-group-default">
+                        <label>Phone Number 1</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          name="phone1Number"
+                          formControlName="phone1Number"
+                          readonly
+                        >
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group form-group-default">
+                        <label>Extension</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="phone1Extension"
+                          formControlName="phone1Ext"
+                          readonly
+                        > </div>
+                    </div>
+                  </div>
+                  <div class="row clearfix">
+                    <div class="col-md-4">
+                      <div class="form-group form-group-default">
+                        <label>Country Code</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="phone2CountryCode"
+                          formControlName="phone2CountryCode"
+                          readonly
+                        > </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group form-group-default">
+                        <label>Phone Number 2</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          name="phone2Number"
+                          formControlName="phone2Number"
+                          readonly
+                        > </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group form-group-default">
+                        <label>Extension</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="phone2Extension"
+                          formControlName="phone2Ext"
+                          readonly
+                        > </div>
+                    </div>
+                  </div>
+
+                  <!-- Client Address form -->
+                  <div class="row clearfix">
+                    <div class="col-md-6">
+                      <div class="form-group form-group-default">
+                        <label>Address Line1</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="addressLine1"
+                          formControlName="addressLine1"
+                          readonly
+                        >
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group form-group-default">
+                        <label>Address Line2</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="addressLine2"
+                          formControlName="addressLine2"
+                          readonly
+                        > </div>
+                    </div>
+                  </div>
+                  <div class="row clearfix">
+                    <div class="col-md-6">
+                      <div class="form-group form-group-default">
+                        <label>Country</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="country"
+                          formControlName="country"
+                          readonly
+                        >
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group form-group-default">
+                        <label>State</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="state"
+                          formControlName="state"
+                          readonly
+                        > </div>
+                    </div>
+                  </div>
+                  <div class="row clearfix">
+                    <div class="col-md-6">
+                      <div class="form-group form-group-default required">
+                        <label>City</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="city"
+                          formControlName="city"
+                          readonly
+                        >
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group form-group-default required">
+                        <label>Zip</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="zip"
+                          formControlName="zip"
+                          readonly
+                        > </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End of Client information-->
+
+                <!-- Lead/Project information-->
+                <p class="m-t-30">
+                  <em class="icon-grid  m-l-5"></em>&nbsp;&nbsp;Project Information</p>
+                <div
+                  class="form-group-attached"
+                  formGroupName="projectDetails"
+                >
+
+                  <div class="row clearfix">
+                    <div class="col-md-12">
+                      <div
+                        class="form-group form-group-default required"
+                        [class.has-error]="isFieldValid(1, 'projectName')"
+                      >
+                        <label>Project name</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="projectName"
+                          formControlName="projectName"
+                          [readonly]="readOnlyProjectDetails()"
+                          required
+                        >
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row clearfix">
+                    <div class="col-md-6">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default required"
+                        [class.has-error]="isFieldValid(1, 'projectContactName')"
+                      >
+                        <label>Contact Preson</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="projectContactName"
+                          formControlName="projectContactName"
+                          [readonly]="readOnlyProjectDetails()"
+                          required
+                        >
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default"
+                      >
+                        <label>Email Address</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="projectContactEmail"
+                          formControlName="projectContactEmail"
+                          [readonly]="readOnlyProjectDetails()"
+                        > </div>
+                    </div>
+                  </div>
+
+                  <div class="row clearfix">
+                    <div class="col-md-4">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default"
+                      >
+                        <label>Country Code</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="projectPhone1CountryCode"
+                          formControlName="projectPhone1CountryCode"
+                          [readonly]="readOnlyProjectDetails()"
+                        > </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default required"
+                        [class.has-error]="isFieldValid(1, 'projectPhone1Number')"
+                      >
+                        <label>Phone Number 1</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          name="projectPhone1Number"
+                          formControlName="projectPhone1Number"
+                          [readonly]="readOnlyProjectDetails()"
+                          required
+                        >
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default"
+                      >
+                        <label>Extension</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="projectPhone1Ext"
+                          formControlName="projectPhone1Ext"
+                          [readonly]="readOnlyProjectDetails()"
+                        > </div>
+                    </div>
+                  </div>
+
+                  <div class="row clearfix">
+                    <div class="col-md-4">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default"
+                      >
+                        <label>Country Code</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="projectPhone2CountryCode"
+                          formControlName="projectPhone2CountryCode"
+                          [readonly]="readOnlyProjectDetails()"
+                        > </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default"
+                      >
+                        <label>Phone Number 2</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          name="projectPhone2Number"
+                          formControlName="projectPhone2Number"
+                          [readonly]="readOnlyProjectDetails()"
+                        > </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default"
+                      >
+                        <label>Extension</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="projectPhone2Ext"
+                          formControlName="projectPhone2Ext"
+                          [readonly]="readOnlyProjectDetails()"
+                        > </div>
+                    </div>
+                  </div>
+
+                  <div class="row clearfix">
+                    <div class="col-md-6">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default required"
+                        [class.has-error]="isFieldValid(1, 'projectAddressLine1')"
+                      >
+                        <label>Address Line1</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="projectAddressLine1"
+                          formControlName="projectAddressLine1"
+                          (readonly)="readOnlyProjectDetails()"
+                          required
+                        >
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default"
+                      >
+                        <label>Address Line2</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="projectAddressLine2"
+                          formControlName="projectAddressLine2"
+                          (readonly)="readOnlyProjectDetails()"
+                        > </div>
+                    </div>
+                  </div>
+
+                  <div class="row clearfix">
+                    <div class="col-md-6">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default required"
+                        [class.has-error]="isFieldValid(1, 'projectCountry')"
+                      >
+                        <label>Country</label>
+                        <pg-select
+                          (OpenChange)="onCountryChange($event)"
+                          style="width: 100%;"
+                          formControlName="projectCountry"
+                          [PlaceHolder]="'Select Option'"
+                          AllowClear
+                          ShowSearch
+                          [Disabled]="readOnlyProjectDetails()"
+                          required
+                        >
+                          <pg-option
+                            *ngFor="let country of countryStore.rows"
+                            [Label]="country.name"
+                            [Value]="country.name"
+                          > </pg-option>
+                        </pg-select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default required"
+                        [class.has-error]="isFieldValid(1, 'projectState')"
+                      >
+                        <label>State</label>
+                        <pg-select
+                          style="width: 100%;"
+                          formControlName="projectState"
+                          [PlaceHolder]="'Select Option'"
+                          (OpenChange)="onStateChange($event)"
+                          AllowClear
+                          ShowSearch
+                          [Disabled]="readOnlyProjectDetails()"
+                        >
+                          <pg-option
+                            *ngFor="let state of statesStore.rows"
+                            [Label]="state.name"
+                            [Value]="state.name"
+                          > </pg-option>
+                        </pg-select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row clearfix">
+                    <div class="col-md-6">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default required"
+                        [class.has-error]="isFieldValid(1, 'projectCity')"
+                      >
+                        <label>
+                          <div>
+                            <span>City</span>
+                            <span
+                              (click)="openNewCityPopup()"
+                              class="add-new-option-link"
+                            >
+                              Not found? Click here
+                            </span>
+                          </div>
+                        </label>
+                        <pg-select
+                          style="width: 100%;"
+                          formControlName="projectCity"
+                          [PlaceHolder]="'Select Option'"
+                          AllowClear
+                          ShowSearch
+                          required
+                        >
+                          <pg-option
+                            *ngFor="let city of citiesStore.rows"
+                            [Label]="city.name"
+                            [Value]="city.name"
+                          > </pg-option>
+                        </pg-select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default"
+                      >
+                        <label>Zip</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="projectZip"
+                          formControlName="projectZip"
+                          [readonly]="readOnlyProjectDetails()"
+                        > </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End of Lead/ Project information-->
+
+                <!-- Bid Information-->
+                <p class="m-t-30">
+                  <em class="icon-layers  m-l-5"></em>&nbsp;&nbsp;Bid Details</p>
+                <div
+                  class="form-group-attached"
+                  formGroupName="projectDetails"
+                >
+                  <div class="row clearfix">
+                    <div class="col-md-12">
+                      <div class="form-group form-group-default form-group-default-select2 required">
+                        <label style="width:100%">
+                          <div>
+                            <span>Requirements</span>
+                            <span
+                              *ngIf="!readOnlyBidDetails()"
+                              (click)="newRequirement=null;newBidDetailPopup.show()"
+                              class="add-new-option-link"
+                            >
+                              Add new option
+                            </span>
+                          </div>
+                        </label>
+                        <pg-select
+                          style="width: 100%;"
+                          [Mode]="'multiple'"
+                          formControlName="bidType"
+                          [Disabled]="readOnlyBidDetails()"
+                          required
+                        >
+                          <pg-option
+                            *ngFor="let value of requirements"
+                            [Label]="value"
+                            [Value]="value"
+                          > </pg-option>
+                        </pg-select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row clearfix">
+                    <div class="col-md-6">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default"
+                      >
+                        <label>Received Date</label>
+                        <pg-datepicker
+                          formControlName="bidReceivedDate"
+                          [Disabled]="readOnlyBidDetails()"
+                        ></pg-datepicker>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default"
+                      >
+                        <label>Due Date</label>
+                        <pg-datepicker
+                          formControlName="bidDueDate"
+                          [Disabled]="readOnlyBidDetails()"
+                        ></pg-datepicker>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row clearfix">
+                    <div class="col-md-6">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default"
+                      >
+
+                        <label>Documents Path</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="documentPath"
+                          formControlName="documentPath"
+                          [readonly]="readOnlyBidDetails()"
+                        >
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default"
+                      >
+                        <label>Documents Received</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="documentReceived"
+                          formControlName="documentReceived"
+                          [readonly]="readOnlyBidDetails()"
+                        >
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="row clearfix"
+                    *ngIf="isSalesManager()"
+                  >
+                    <div class="col-md-12">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default"
+                      >
+                        <label>Executive</label>
+                        <pg-select
+                          style="width: 100%;"
+                          formControlName="executive"
+                          [PlaceHolder]="'Select Option'"
+                          AllowClear
+                          ShowSearch
+                          [Disabled]="readOnlyBidDetails()"
+                        >
+                          <pg-option
+                            *ngFor="let salesPerson of salesPersonStore.rows"
+                            [Label]="salesPerson.displayName"
+                            [Value]="salesPerson.userId"
+                          > </pg-option>
+                        </pg-select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row clearfix">
+                    <div class="col-md-12">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default"
+                      >
+                        <!-- [class.has-error]="isFieldValid(1, 'estimateLead')" -->
+                        <label>Estimation Lead</label>
+                        <pg-select
+                          style="width: 100%;"
+                          formControlName="estimateLead"
+                          [PlaceHolder]="'Select Option'"
+                          AllowClear
+                          ShowSearch
+                          [Disabled]="readOnlyBidDetails()"
+                        >
+                          <pg-option
+                            *ngFor="let estimationLead of estimationLeadsStore.rows"
+                            [Label]="estimationLead.displayName"
+                            [Value]="estimationLead.userId"
+                          > </pg-option>
+                        </pg-select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="row clearfix"
+                    *ngIf="isEstimationManager()"
+                  >
+                    <div class="col-md-12">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default"
+                      >
+                        <label>Estimator</label>
+                        <pg-select
+                          style="width: 100%;"
+                          formControlName="estimator"
+                          [PlaceHolder]="'Select Option'"
+                          AllowClear
+                          ShowSearch
+                          [Disabled]="readOnlyBidDetails('estimator')"
+                        >
+                          <pg-option
+                            *ngFor="let estimator of estimatorsStore.rows"
+                            [Label]="estimator.displayName"
+                            [Value]="estimator.userId"
+                          > </pg-option>
+                        </pg-select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row clearfix">
+                    <div class="col-md-12">
+                      <div
+                        pgFormGroupDefault
+                        class="form-group form-group-default"
+                      >
+                        <label>Remarks</label>
+                        <textarea
+                          type="text"
+                          class="form-control"
+                          name="salesRemarks"
+                          formControlName="salesRemarks"
+                          [readonly]="readOnlyBidDetails()"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <!-- End Bid Information-->
+
+                <!-- Old Estimation revisions-->
+                <div
+                  *ngIf="visibleOldEstimations()"
+                  formArrayName="oldEstimations"
+                >
+                  <div *ngFor="let ctrl of salesForm.get('oldEstimations')['controls']; let _index = index">
+                    <p class="m-t-30">
+                      <em class="icon-equalizer  m-l-5"></em>&nbsp;&nbsp;Estimation Revision-{{_index+1}}</p>
+                    <div
+                      class="form-group-attached"
+                      [formGroupName]="_index"
+                    >
+
+                      <div class="row clearfix">
+                        <div class="col-md-12">
+                          <div class="form-group form-group-default form-group-default-select2">
+                            <label>MainSteel Inclusions</label>
+                            <pg-select
+                              style="width: 100%;"
+                              Mode="multiple"
+                              formControlName="mainSteelInclusions"
+                              Disabled="true"
+                            >
+                              <pg-option
+                                *ngFor="let row of filter('main_inclusions')"
+                                [Label]="row.desc"
+                                [Value]="row.desc"
+                              > </pg-option>
+                            </pg-select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row clearfix">
+                        <div class="col-md-12">
+                          <div class="form-group form-group-default form-group-default-select2">
+                            <label>MainSteel Exclusions</label>
+                            <pg-select
+                              style="width: 100%;"
+                              Mode="multiple"
+                              formControlName="mainSteelExclusions"
+                              Disabled="true"
+                            >
+                              <pg-option
+                                *ngFor="let row of filter('main_exclusions')"
+                                [Label]="row.desc"
+                                [Value]="row.desc"
+                              > </pg-option>
+                            </pg-select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row clearfix">
+                        <div class="col-md-12">
+                          <div class="form-group form-group-default form-group-default-select2">
+                            <label>Misc.Steel Inclusions</label>
+                            <pg-select
+                              style="width: 100%;"
+                              Mode="multiple"
+                              formControlName="miscSteelInclusions"
+                              Disabled="true"
+                            >
+                              <pg-option
+                                *ngFor="let row of filter('misc_inclusions')"
+                                [Label]="row.desc"
+                                [Value]="row.desc"
+                              > </pg-option>
+                            </pg-select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row clearfix">
+                        <div class="col-md-12">
+                          <div class="form-group form-group-default form-group-default-select2">
+                            <label>Main Steel Exclusion</label>
+                            <pg-select
+                              style="width: 100%;"
+                              Mode="multiple"
+                              formControlName="miscSteelExclusions"
+                              Disabled="true"
+                            >
+                              <pg-option
+                                *ngFor="let row of filter('misc_exclusions')"
+                                [Label]="row.desc"
+                                [Value]="row.desc"
+                              > </pg-option>
+                            </pg-select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row clearfix">
+                        <div class="col-md-12">
+                          <div
+                            pgFormGroupDefault
+                            class="form-group form-group-default"
+                          >
+                            <label>Remarks</label>
+                            <textarea
+                              class="form-control"
+                              name="remarks"
+                              formControlName="remarks"
+                              readonly
+                            ></textarea> </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div *ngIf="ctrl.value.schedules">
+                      <p class="m-t-30">
+                        <em class="icon-calendar  m-l-5"></em>&nbsp;&nbsp;Schedule</p>
+                      <div class="form-group-attached">
+                        <div *ngFor="let schedule of ctrl.value.schedules">
+                          <div class="form-group-attached">
+
+                            <div class="row clearfix">
+                              <div class="col-md-6">
+                                <div
+                                  pgFormGroupDefault
+                                  class="form-group form-group-default"
+                                >
+                                  <label>{{schedule.scheduleName}} Hours</label>
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    name="scheduleHours"
+                                    [value]="schedule.scheduleHours"
+                                    readonly
+                                  >
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div
+                                  pgFormGroupDefault
+                                  class="form-group form-group-default"
+                                >
+                                  <label>{{schedule.scheduleName}} Schedule (Weeks)</label>
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    name="scheduleWeeks"
+                                    [value]="schedule.scheduleWeeks"
+                                    readonly
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+                <!-- End Old Estimation-->
+
+                <!-- Current Estimation-->
+                <div *ngIf="visibleEstimationDiv()">
+                  <p class="m-t-30">
+                    <em class="icon-equalizer  m-l-5"></em>&nbsp;&nbsp;Estimation</p>
+                  <div
+                    class="form-group-attached"
+                    formGroupName="estimations"
+                  >
+
+                    <div class="row clearfix">
+                      <div class="col-md-12">
+                        <div class="form-group form-group-default form-group-default-select2 required">
+                          <label>MainSteel Inclusions</label>
+                          <pg-select
+                            style="width: 100%;"
+                            [Mode]="'multiple'"
+                            formControlName="mainSteelInclusions"
+                            [PlaceHolder]="'Select Option'"
+                            AllowClear
+                            ShowSearch
+                            required
+                          >
+                            <pg-option
+                              *ngFor="let row of filter('main_inclusions')"
+                              [Label]="row.desc"
+                              [Value]="row.desc"
+                            > </pg-option>
+                          </pg-select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row clearfix">
+                      <div class="col-md-12">
+                        <div class="form-group form-group-default form-group-default-select2">
+                          <label>MainSteel Exclusions</label>
+                          <pg-select
+                            style="width: 100%;"
+                            [Mode]="'multiple'"
+                            formControlName="mainSteelExclusions"
+                            [PlaceHolder]="'Select Option'"
+                            AllowClear
+                            ShowSearch
+                          >
+                            <pg-option
+                              *ngFor="let row of filter('main_exclusions')"
+                              [Label]="row.desc"
+                              [Value]="row.desc"
+                            > </pg-option>
+                          </pg-select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row clearfix">
+                      <div class="col-md-12">
+                        <div class="form-group form-group-default form-group-default-select2 required">
+                          <label>Misc.Steel Inclusions</label>
+                          <pg-select
+                            style="width: 100%;"
+                            [Mode]="'multiple'"
+                            formControlName="miscSteelInclusions"
+                            [PlaceHolder]="'Select Option'"
+                            AllowClear
+                            ShowSearch
+                            required
+                          >
+                            <pg-option
+                              *ngFor="let row of filter('misc_inclusions')"
+                              [Label]="row.desc"
+                              [Value]="row.desc"
+                            > </pg-option>
+                          </pg-select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row clearfix">
+                      <div class="col-md-12">
+                        <div class="form-group form-group-default form-group-default-select2">
+                          <label>Main Steel Exclusion</label>
+                          <pg-select
+                            style="width: 100%;"
+                            [Mode]="'multiple'"
+                            formControlName="miscSteelExclusions"
+                            [PlaceHolder]="'Select Option'"
+                            AllowClear
+                            ShowSearch
+                          >
+                            <pg-option
+                              *ngFor="let row of filter('misc_exclusions')"
+                              [Label]="row.desc"
+                              [Value]="row.desc"
+                            > </pg-option>
+                          </pg-select>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                    <div class="row clearfix">
+                      <div class="col-md-12">
+                        <div
+                          pgFormGroupDefault
+                          class="form-group form-group-default"
+                        >
+                          <label>Remarks</label>
+                          <textarea
+                            class="form-control"
+                            name="remarks"
+                            formControlName="remarks"
+                          ></textarea> </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+
+                <div *ngIf="visibleEstimationDiv()">
+                  <p class="m-t-30">
+                    <em class="icon-calendar  m-l-5"></em>&nbsp;&nbsp;Schedule</p>
+                  <div
+                    class="form-group-attached"
+                    formArrayName="schedules"
+                  >
+                    <div *ngFor="let formgroup of salesForm.get('schedules')['controls']; let _index = index">
+                      <div
+                        *ngIf="formgroup.value.$operation$ !== 'delete'"
+                        class="form-group-attached"
+                        [formGroupName]="_index"
+                      >
+
+                        <div class="row clearfix">
+                          <div class="col-md-6">
+                            <div
+                              pgFormGroupDefault
+                              class="form-group form-group-default required"
+                            >
+                              <label>{{formgroup.value.scheduleName}} Hours</label>
+                              <input
+                                type="number"
+                                class="form-control"
+                                name="scheduleHours"
+                                formControlName="scheduleHours"
+                                required
+                              >
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div
+                              pgFormGroupDefault
+                              class="form-group form-group-default required"
+                            >
+                              <label>{{formgroup.value.scheduleName}} Schedule (Weeks)</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                name="scheduleWeeks"
+                                formControlName="scheduleWeeks"
+                                required
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- End of Current Estimation-->
+
+                <!-- Old Quote revisions-->
+                <div
+                  *ngIf="visibleOldQuotations()"
+                  formArrayName="oldQuotations"
+                >
+                  <div *ngFor="let ctrl of salesForm.get('oldQuotations')['controls']; let _index = index">
+                    <p class="m-t-30">
+                      <em class="icon-calculator  m-l-5"></em>&nbsp;&nbsp;Quote Revision-{{_index+1}}</p>
+                    <div
+                      class="form-group-attached"
+                      [formGroupName]="_index"
+                    >
+                      <div class="row clearfix">
+                        <div class="col-md-4">
+                          <div
+                            pgFormGroupDefault
+                            class="form-group form-group-default required"
+                          >
+                            <label>Main Steel Price</label>
+                            <input
+                              type="number"
+                              placeholder="Enter price"
+                              formControlName="mainSteelPrice"
+                              class="autonumeric form-control"
+                              readonly
+                            >
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div
+                            pgFormGroupDefault
+                            class="form-group form-group-default required"
+                          >
+                            <label>Misc Steel Price</label>
+                            <input
+                              type="number"
+                              placeholder="Enter price"
+                              formControlName="miscSteelPrice"
+                              class="autonumeric form-control"
+                              readonly
+                            >
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div
+                            pgFormGroupDefault
+                            class="form-group form-group-default required"
+                          >
+                            <label>Engineering Price</label>
+                            <input
+                              type="number"
+                              placeholder="Enter price"
+                              class="form-control"
+                              formControlName="engineeringPrice"
+                              readonly
+                            >
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row clearfix">
+                        <div class="col-md-12">
+                          <div
+                            pgFormGroupDefault
+                            class="form-group form-group-default"
+                          >
+                            <label>Remarks</label>
+                            <textarea
+                              class="form-control"
+                              name="remarks"
+                              formControlName="remarks"
+                              readonly
+                            ></textarea> </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <!-- End Quote Estimation-->
+
+
+                <!-- Current Quote-->
+                <div *ngIf="visibleCurrentQuoteDiv()">
+                  <p class="m-t-30">
+                    <em class="icon-calculator  m-l-5"></em>&nbsp;&nbsp;Quotation
+                  </p>
+                  <div
+                    class="form-group-attached"
+                    formGroupName="quotation"
+                  >
+
+                    <div class="row clearfix">
+                      <div class="col-md-4">
+                        <div
+                          pgFormGroupDefault
+                          class="form-group form-group-default required"
+                          [class.has-error]="isFieldValid(3, 'mainSteelPrice')"
+                        >
+                          <label>Main Steel Price</label>
+                          <input
+                            type="number"
+                            placeholder="Enter price"
+                            formControlName="mainSteelPrice"
+                            class="autonumeric form-control"
+                            required
+                          >
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div
+                          pgFormGroupDefault
+                          class="form-group form-group-default required"
+                          [class.has-error]="isFieldValid(3, 'miscSteelPrice')"
+                        >
+                          <label>Misc Steel Price</label>
+                          <input
+                            type="number"
+                            placeholder="Enter price"
+                            formControlName="miscSteelPrice"
+                            class="autonumeric form-control"
+                            required
+                          >
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div
+                          pgFormGroupDefault
+                          class="form-group form-group-default required"
+                          [class.has-error]="isFieldValid(3, 'engineeringPrice')"
+                        >
+                          <label>Engineering Price</label>
+                          <input
+                            type="number"
+                            placeholder="Enter price"
+                            class="form-control"
+                            formControlName="engineeringPrice"
+                            required
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row clearfix">
+                      <div class="col-md-12">
+                        <div
+                          pgFormGroupDefault
+                          class="form-group form-group-default"
+                        >
+                          <label>Remarks</label>
+                          <textarea
+                            class="form-control"
+                            name="remarks"
+                            formControlName="remarks"
+                          ></textarea> </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <!-- End of Current Quote-->
+
+                <!-- Submit buttons-->
+                <div class="row clearfix m-t-20">
+                  <div class="col-sm-12 col-lg-12 col-md-12 text-center">
+                    <button
+                      *ngIf="visibleSaveAsDraftBtn()"
+                      class="btn btn-rounded btn-primary m-r-10"
+                      (click)="saveAsDraft()"
+                      [disabled]="isPageBusy()"
+                    ><em class="icon-folder"></em>&nbsp;Save as Draft</button>
+                    <button
+                      *ngIf="visibleSalesPublishBtn()"
+                      (click)="publishLead()"
+                      class="btn btn-rounded btn-primary m-r-10"
+                      [disabled]="isPageBusy()"
+                    ><em class="icon-share-alt"></em>&nbsp;Publish</button>
+                    <button
+                      *ngIf="visiableSendForEstimationBtn()"
+                      class="btn btn-rounded btn-primary m-r-10"
+                      (click)="sendLeadForEstimation()"
+                      [disabled]="isPageBusy()"
+                    ><em class="icon-share"></em>&nbsp;Send for Estimation</button>
+                    <button
+                      *ngIf="visibleSaveEstimationBtn()"
+                      class="btn btn-rounded btn-primary m-r-10"
+                      (click)="saveEstimation()"
+                      [disabled]="isPageBusy()"
+                    ><em class="icon-folder"></em>&nbsp;Save Estimation</button>
+                    <button
+                      *ngIf="visibleStartEstimationBtn()"
+                      (click)="startEstimation()"
+                      class="btn btn-rounded btn-primary m-r-10"
+                      [disabled]="isPageBusy()"
+                    ><em class="icon-arrow-right"></em>&nbsp;Start Estimation</button>
+                    <button
+                      *ngIf="isEstimationManager()"
+                      (click)="assignEstimaor()"
+                      class="btn btn-rounded btn-primary m-r-10"
+                      [disabled]="isPageBusy()"
+                    ><em class="icon-user"></em>&nbsp;Assign Estimator</button>
+                    <button
+                      *ngIf="visibleCompleteEstimationBtn()"
+                      (click)="completeEstimation()"
+                      class="btn btn-rounded btn-primary m-r-10"
+                      [disabled]="isPageBusy()"
+                    ><em class="icon-share"></em>&nbsp;Complete Estimation</button>
+                    <button
+                      *ngIf="visibleSendReEstimationBtn()"
+                      (click)="sendLeadForReEstimation()"
+                      class="btn btn-rounded btn-primary m-r-10"
+                      [disabled]="isPageBusy()"
+                    ><em class="icon-refresh"></em>&nbsp;Send For Re-Estimatation</button>
+                    <button
+                      *ngIf="quotationEditing"
+                      (click)="saveQuotation()"
+                      class="btn btn-rounded btn-primary m-r-10"
+                      [disabled]="isPageBusy()"
+                    ><em class="icon-folder"></em>&nbsp;Save Quote</button>
+                    <button
+                      *ngIf="visibleStartQuoteBtn()"
+                      (click)="startQuotation()"
+                      class="btn btn-rounded btn-primary m-r-10"
+                      [disabled]="isPageBusy()"
+                    ><em class="icon-arrow-right"></em>&nbsp;
+                      {{quoteBtnText()}}</button>
+                    <button
+                      *ngIf="visiblePDFButton()"
+                      (click)="pdfModal.show()"
+                      class="btn btn-rounded btn-primary m-r-10"
+                      [disabled]="isPageBusy()"
+                    ><em class="icon-doc"></em>&nbsp;Open PDF Template</button>
+                    <button
+                      *ngIf="visibleSendForQuoteBtn()"
+                      (click)="completeQuotation()"
+                      class="btn btn-rounded btn-primary m-r-10"
+                      [disabled]="isPageBusy()"
+                    ><em class="icon-share"></em>&nbsp;Send Quotation</button>
+                    <button
+                      *ngIf="visibleCloseLeadeBtn()"
+                      (click)="closeLeadModal.show()"
+                      class="btn btn-rounded btn-primary m-r-10"
+                      [disabled]="isPageBusy()"
+                    ><em class="icon-check"></em>&nbsp;Close Lead</button>
+                  </div>
+                </div>
+
+                <!-- End Submit buttons-->
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+<div
+  bsModal
+  #addNewCityModal="bs-modal"
+  class="modal fade slide-up disable-scroll"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="false"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 m-t-20">
+              <form>
+                <div class="row">
+                  <div class="col-md-12">
+                    <label>
+                      Add New City
+                    </label>
+                    <div class="
+                          form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="remarks"
+                        placeholder="Enter City Name"
+                        [(ngModel)]="newCityEntered"
+                      >
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 m-t-10  text-center">
+              <button
+                class="btn btn-tag btn-complete  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="addNewCity()"
+                type="button"
+                [disabled]="!newCityEntered || citiesStore.isBusy"
+              >Save</button>
+              <button
+                class="btn btn-tag btn-complete  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="addNewCityModal.hide()"
+                type="button"
+              >Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div
+  bsModal
+  #closeLeadModal="bs-modal"
+  class="modal fade slide-up disable-scroll"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="false"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-header clearfix text-left">
+          <button
+            class="close"
+            (click)="closeLeadModal.hide()"
+            type="button"
+          ><i class="pg pg-close fs-14"></i>
+          </button>
+          <h5><span class="semi-bold"><em class="icon-badge"></em>&nbsp;Lead Status</span></h5>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 m-t-10  text-center">
+              <pg-select
+                style="width:250px;padding: 5px;border-radius: 5px;"
+                PlaceHolder='Select an option'
+                [(ngModel)]="leadFinalStatus"
+              >
+                <pg-option
+                  Value="Please Choose..."
+                  disabled
+                  selected
+                >Please Choose...</pg-option>
+                <pg-option
+                  *ngFor="let obj of leadCloseStatus"
+                  [Label]="obj.label"
+                  [Value]="obj.status"
+                > </pg-option>
+              </pg-select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 m-t-10  text-center">
+              <button
+                class="btn btn-primary btn-rounded m-t-5"
+                (click)="closeLead()"
+                type="button"
+              >Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  bsModal
+  #newBidDetailPopup="bs-modal"
+  class="modal fade slide-up disable-scroll"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="false"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 m-t-20">
+              <form>
+                <div class="row">
+                  <div class="col-md-12">
+                    <label>
+                      Add new option
+                    </label>
+                    <div class="
+                          form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter option"
+                        [(ngModel)]="newRequirement"
+                        [ngModelOptions]="{standalone: true}"
+                      >
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 m-t-10  text-center">
+              <button
+                class="btn btn-tag btn-complete  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="addNewRequirement()"
+                [disabled]="!newRequirement"
+                type="button"
+              >Save</button>
+              <button
+                class="btn btn-tag btn-complete  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="newBidDetailPopup.hide()"
+                type="button"
+              >Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  bsModal
+  #pdfModal="bs-modal"
+  class="modal fade slide-up disable-scroll"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="false"
+>
+  <div class="modal-dialog modal-lg xl-lg">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 m-t-20">
+              <form
+                #popupForm="ngForm"
+                [formGroup]="salesForm"
+              >
+                <div class="row">
+                  <div class="col-md-12">
+                    <div
+                      class="form-group"
+                      formGroupName="projectDetails"
+                    >
+                      <div class="wysiwyg5-wrapper b-a b-grey wysiwug">
+                        <quill-editor
+                          [style]="{height: '500px'}"
+                          placeholder="Enter content"
+                          [modules]="editorModules"
+                          formControlName="pdfTemplate"
+                        >
+                        </quill-editor>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 m-t-10  text-center">
+              <button
+                class="btn btn-tag btn-primary  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="saveSales()"
+                type="button"
+              >Save Changes</button>
+              <button
+                class="btn btn-tag btn-primary  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="pdfModal.hide()"
+                type="button"
+              >Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

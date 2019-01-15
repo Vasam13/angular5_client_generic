@@ -1,0 +1,203 @@
+<div
+  class="table-responsive"
+  *ngIf="store"
+>
+  <ngx-datatable
+    #table
+    class='table'
+    [columnMode]="columnModeSetting"
+    [scrollbarH]="scrollBarHorizontal"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    [rowHeight]="'auto'"
+    [limit]="10"
+    [selected]="store.selected"
+    [selectionType]="'single'"
+    [rows]="getRows()"
+    (select)="store.onRowSelect($event)"
+  >
+    <ngx-datatable-column
+      [name]="md.title"
+      *ngFor="let md of store.columnsMD;  let columnIndex = index"
+      [sortable]="md.sortable"
+      [maxWidth]="md.maxWidth"
+    >
+      <ng-template
+        ngx-datatable-cell-template
+        let-rowIndex="rowIndex"
+        let-value="value"
+        let-row="row"
+      >
+        <div
+          *ngIf="md.type === 'template' && md.templateConfiguration"
+          style="text-align: center"
+          class="gird-cell-editor"
+          (click)="store.setCurrentColumn(rowIndex, columnIndex)"
+          [ngClass]="{ 'current-row': store.isCurrentRow(rowIndex), 'first-column': columnIndex===0}"
+          (click)="store.clickHandler(row, md)"
+        >
+          <span
+            *ngIf="md.templateConfiguration.getHTML"
+            [innerHTML]="md.templateConfiguration.getHTML(row, md)"
+          >
+          </span>
+        </div>
+        <div *ngIf="isVisible(row, md) && row.$operation$ !== 'insert'">
+          <div
+            *ngIf="(md.type === 'link' && md.linkConfiguration)"
+            class="active-link grid-link-cell gird-cell-editor"
+            (click)="store.setCurrentColumn(rowIndex, columnIndex)"
+            [ngClass]="{ 'current-row': store.isCurrentRow(rowIndex), 'first-column': columnIndex===0}"
+            (click)="store.clickHandler(row, md)"
+          >
+            <span
+              *ngIf="md.linkConfiguration.html"
+              [innerHTML]="md.linkConfiguration.html"
+            ></span>
+            <span *ngIf="md.linkConfiguration.text">
+              {{md.linkConfiguration.text}}
+            </span>
+            <span
+              *ngIf="md.linkConfiguration.icon"
+              class="text-center"
+            >
+              &nbsp;<em [class]="md.linkConfiguration.icon"></em>&nbsp;
+            </span>
+          </div>
+        </div>
+        <input
+          *ngIf="md.type === 'text' || md.type === 'number' ||
+                    (md.type === 'date' && md.updateAllowed)"
+          placeholder="Click to edit"
+          autofocus
+          [style]="md.style"
+          [required]="md.required"
+          [readonly]="!store.isEditable(row, md)"
+          class="gird-cell-editor"
+          (click)="store.setCurrentColumn(rowIndex, columnIndex);store.clickHandler(row,md)"
+          [ngClass]="{ 'current-row': store.isCurrentRow(rowIndex), 'first-column': columnIndex===0,
+        'grid-cell-has-errors' : store.hasErrors(row, md)}"
+          (blur)="store.resetCurrentColumn()"
+          [type]="getInputType(md)"
+          [value]="row[md.column]"
+          [(ngModel)]="row[md.column]"
+        />
+        <input
+          *ngIf="md.type === 'date' && !md.updateAllowed && row.$operation$ !== 'insert'"
+          autofocus
+          [style]="md.style"
+          [readonly]="true"
+          class="gird-cell-editor"
+          (click)="store.setCurrentColumn(rowIndex, columnIndex);store.clickHandler(row,md)"
+          [ngClass]="{ 'current-row': store.isCurrentRow(rowIndex), 'first-column': columnIndex===0}"
+          (blur)="store.resetCurrentColumn()"
+          [type]="text"
+          [value]="convertDate(row[md.column])"
+        />
+        <div
+          style="padding-left: 10px"
+          class="checkbox check-primary"
+          *ngIf="isCheckboxColumn(md)"
+        ><input
+            [id]="rowIndex +'_'+columnIndex"
+            type="checkbox"
+            [(ngModel)]="row[md.column]"
+            [checked]="getCheckboxValue(row, md)"
+            (change)="onCheckboxChanged(row, md)"
+          ><label [for]="rowIndex +'_'+columnIndex"></label></div>
+        <!-- <div class="input-group date col-md-8 p-l-0"> -->
+        <!-- <pg-datepicker
+          *ngIf="md.type === 'date'"
+          class="gird-cell-editor"
+          (click)="store.setCurrentColumn(rowIndex, columnIndex)"
+          [ngClass]="{ 'current-row': store.isCurrentRow(rowIndex), 'first-column': columnIndex===0,
+      'grid-cell-has-errors' : store.hasErrors(row, md)}"
+          (blur)="store.resetCurrentColumn()"
+          [(ngModel)]="row[md.column]"
+        ></pg-datepicker> -->
+        <!-- <div class="input-group-append">
+                <span class="input-group-text">
+                  <i class="fa fa-calendar"></i>
+                </span>
+            </div>
+          </div> -->
+        <pg-select
+          *ngIf="isSelectColumn(md) && store.isEditable(row, md)"
+          (onchange)="store.clickHandler(row, md)"
+          (click)="store.setCurrentColumn(rowIndex, columnIndex)"
+          class="gird-cell-editor"
+          [ngClass]="{ 'current-row': store.isCurrentRow(rowIndex), 'first-column': columnIndex===0}"
+          (blur)="store.resetCurrentColumn()"
+          [PlaceHolder]="'Select Option'"
+          [(ngModel)]="row[md.column]"
+          AllowClear
+          ShowSearch
+        >
+          <pg-option
+            *ngFor="let dropdownRows of md.dropDownConfiguration.store.rows"
+            [Label]="dropdownRows[md.dropDownConfiguration.displayColumn]"
+            [Value]="dropdownRows[md.dropDownConfiguration.valueColumn]"
+          >
+          </pg-option>
+        </pg-select>
+        <!-- <div
+          *ngIf="isSelectColumn(md) && !store.isEditable(row, md)"
+          class="gird-cell-editor"
+          (click)="store.setCurrentColumn(rowIndex, columnIndex)"
+          [ngClass]="{ 'current-row': store.isCurrentRow(rowIndex), 'first-column': columnIndex===0}"
+          (click)="store.clickHandler(row, md)"
+        >
+          <span class="select-readyonly">
+            {{getSelectDisplayValue(row, md)}}
+          </span>
+        </div> -->
+        <input
+          *ngIf="isSelectColumn(md) && !store.isEditable(row, md)"
+          autofocus
+          [style]="md.style"
+          [readonly]="true"
+          class="gird-cell-editor"
+          (click)="store.setCurrentColumn(rowIndex, columnIndex);store.clickHandler(row,md)"
+          [ngClass]="{ 'current-row': store.isCurrentRow(rowIndex), 'first-column': columnIndex===0}"
+          (blur)="store.resetCurrentColumn()"
+          type="text"
+          [value]="getSelectDisplayValue(row, md)"
+        />
+        <!-- <pg-select
+          *ngIf="md.type === 'select' && md.dropDownConfiguration"
+          style="width: 100%;"
+          [(ngModel)]="row[md.column]"
+          [PlaceHolder]="'Select Option'"
+          AllowClear
+          ShowSearch
+        >
+          <pg-option
+            *ngFor="let dropdownRows of md.dropDownConfiguration.store.rows"
+            [Label]="dropdownRows[md.dropDownConfiguration.displayColumn]"
+            [Value]="dropdownRows[md.dropDownConfiguration.valueColumn]"
+          >
+          </pg-option>
+        </pg-select> -->
+      </ng-template>
+    </ngx-datatable-column>
+    <ng-template
+      ngx-datatable-footer-template
+      let-rowCount="rowCount"
+      let-pageSize="pageSize"
+      let-selectedCount="selectedCount"
+      let-curPage="curPage"
+      let-offset="offset"
+    > Showing {{curPage}} to {{pageSize}} of {{rowCount}} entries </ng-template>
+  </ngx-datatable>
+</div>
+
+<!-- <div
+          [ngClass]="{'gird-cell': true,'current-row': store.isCurrentRow(rowIndex),'first-column': columnIndex===0}"
+
+          title="click to edit"
+          (click)="store.setCurrentColumn(rowIndex, columnIndex)"
+          *ngIf="!store.isColumnTouched(rowIndex, columnIndex)"
+        >
+          <span> {{row[md.column]}}</span>
+           *ngIf="store.isColumnTouched(rowIndex,columnIndex)"
+        </div> -->

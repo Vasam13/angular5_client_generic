@@ -1,0 +1,187 @@
+<div class="card card-transparent m-b-10 m-t-10">
+  <div class="card-body p-l-30 p-b-0 p-r-30 p-t-0">
+  </div>
+</div>
+
+<pg-container extraHorizontalClass="bg-white">
+  <div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+      <div class="card card-default thick-blue-left">
+        <div class="card-header p-t-10">
+          <div class="row">
+            <div class="col-xs-6 col-md-6 col-lg-6">
+              <form [formGroup]="projectForm">
+                <div class="form-group">
+                  <label class="text-primary bold">Select Project (*)</label>
+                  <pg-select
+                    class="allow-borders"
+                    style="width: 100%;"
+                    (OpenChange)="onProjectChange($event)"
+                    [PlaceHolder]="'Select Option'"
+                    formControlName="projectId"
+                    AllowClear
+                    ShowSearch
+                    required
+                  >
+                    <pg-option
+                      *ngFor="let project of projectsStore.rows"
+                      [Label]="project.projectName"
+                      [Value]="project.projectId"
+                    > </pg-option>
+                  </pg-select>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+      <div class="card card-default">
+        <div class="card-header p-t-10">
+          <div class="row">
+            <div class="col-xs-6 col-md-6 col-lg-6">
+              <h4 class="page-title inline btn-rounded m-b-0 m-t-5">
+                <em class="icon-list"></em>&nbsp;Tasks</h4>
+            </div>
+            <div class="col-xs-6 col-md-6 col-lg-6">
+              <div class="pull-right">
+                <button
+                  class="btn btn-tag btn-primary  btn-tag-primary btn-tag-rounded m-r-5"
+                  (click)="taskDetailsStore.insertRow()"
+                >
+                  <em class="icon-plus"></em>&nbsp;New</button>
+                <button
+                  class="btn btn-tag btn-primary  btn-tag-primary btn-tag-rounded m-r-5"
+                  (click)="save()"
+                >
+                  <em class="icon-folder"></em>&nbsp;Save</button>
+                <button
+                  class="btn btn-tag btn-primary  btn-tag-primary btn-tag-rounded m-r-5"
+                  (click)="taskDetailsStore.deleteSelected()"
+                >
+                  <em class="icon-trash"></em>&nbsp;Delete</button>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="card-body p-l-0 p-r-0">
+          <app-grid [store]="taskDetailsStore"></app-grid>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</pg-container>
+
+<div
+  bsModal
+  #remarksModal="bs-modal"
+  class="modal fade slide-up disable-scroll"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="false"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 m-t-10">
+              <form *ngIf="taskDetailsStore.getCurrentRow()">
+                <div class="col-md-12">
+                  <h5><em class="icon-pencil"></em>&nbsp;Remarks</h5>
+                  <div class="form-group">
+                    <textarea
+                      type="text"
+                      class="form-control"
+                      name="remarks"
+                      placeholder="Enter your remarks"
+                      rows="6"
+                      [(ngModel)]="taskDetailsStore.getCurrentRow().remarks"
+                      [readonly]="taskDetailsStore.getCurrentRow().$operation$ !== 'insert'"
+                    ></textarea>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 m-t-10  text-center">
+              <button
+                class="btn btn-tag btn-complete  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="remarksModal.hide()"
+                type="button"
+              >Ok</button>
+              <button
+                class="btn btn-tag btn-success  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="remarksModal.hide(); save()"
+                type="button"
+                *ngIf="taskDetailsStore.getCurrentRow() &&
+                taskDetailsStore.getCurrentRow().$operation$ === 'insert'"
+              >Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div
+  bsModal
+  #descModal="bs-modal"
+  class="modal fade slide-up disable-scroll"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="false"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 m-t-10">
+              <form *ngIf="taskDetailsStore.getCurrentRow()">
+                <div class="col-md-12">
+                  <h5><em class="icon-pencil"></em>&nbsp;Description</h5>
+                  <div class="form-group">
+                    <textarea
+                      type="text"
+                      class="form-control"
+                      name="description"
+                      placeholder="Enter your description"
+                      rows="6"
+                      [(ngModel)]="taskDetailsStore.getCurrentRow().description"
+                      [readonly]="taskDetailsStore.getCurrentRow().$operation$ !== 'insert'"
+                    ></textarea>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 m-t-10  text-center">
+              <button
+                class="btn btn-tag btn-complete  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="descModal.hide()"
+                type="button"
+              >Ok</button>
+              <button
+                class="btn btn-tag btn-success  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="descModal.hide(); save()"
+                type="button"
+                *ngIf="taskDetailsStore.getCurrentRow() &&
+                taskDetailsStore.getCurrentRow().$operation$ === 'insert'"
+              >Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,232 @@
+<pg-container
+  extraHorizontalClass="p-l-0 p-r-0"
+  extraClass="sm-p-l-0 sm-p-r-0"
+>
+  <div
+    class="inner"
+    pg-parallax
+  >
+    <ol class="breadcrumb">
+      <li
+        class="breadcrumb-item breadcrumb-last-link"
+        (click)="gotoProjects()"
+      >Projects</li>
+      <li class="breadcrumb-item active">
+        <span *ngIf="projectId">#{{projectId}}</span>
+        <span *ngIf="!projectId">New</span>
+      </li>
+    </ol>
+  </div>
+</pg-container>
+<div class="row">
+  <div class="col-md-12 p-l-35 p-r-35">
+    <div class="card card-transparent">
+      <div class="card-body p-t-0">
+        <form
+          id="new-prject-form"
+          role="form"
+          autocomplete="on"
+          [formGroup]="projectForm"
+        >
+          <p>
+            <em class="icon-grid m-l-5"></em>&nbsp;&nbsp;Project Details </p>
+          <div
+            class="form-group-attached"
+            formGroupName="projectDetails"
+          >
+            <div class="row clearfix">
+              <div class="col-md-6">
+                <div
+                  class="form-group form-group-default required"
+                  [class.has-error]="isFieldValid('projectName')"
+                >
+                  <label>Project Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="projectName"
+                    formControlName="projectName"
+                    required
+                  >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div
+                  class="form-group form-group-default required"
+                  [class.has-error]="isFieldValid('complexity')"
+                >
+                  <label>Complexity</label>
+                  <pg-select
+                    style="width: 100%;"
+                    formControlName="complexity"
+                    [PlaceHolder]="'Select Option...'"
+                    AllowClear
+                    ShowSearch
+                    required
+                  >
+                    <pg-option
+                      *ngFor="let value of complexity"
+                      [Label]="value"
+                      [Value]="value"
+                    > </pg-option>
+                  </pg-select>
+                </div>
+              </div>
+            </div>
+            <div class="row clearfix">
+              <div class="col-md-4">
+                <div class="form-group form-group-default">
+                  <label>PO#</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="poNumber"
+                    formControlName="poNumber"
+                  >
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-group-default">
+                  <label>PO Date</label>
+                  <pg-datepicker formControlName="poDate"></pg-datepicker>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group form-group-default">
+                  <label>Client Hours</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="clientHours"
+                    formControlName="clientHours"
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="row clearfix">
+              <div class="col-md-4">
+                <div class="form-group form-group-default">
+                  <label>Project Received Date</label>
+                  <pg-datepicker formControlName="receivedDate"></pg-datepicker>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div
+                  class="form-group form-group-default required"
+                  [class.has-error]="isFieldValid('targetedOfaDate')"
+                >
+                  <label>Targeted OFA Date</label>
+                  <pg-datepicker
+                    formControlName="targetedOfaDate"
+                    required
+                  ></pg-datepicker>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div
+                  class="form-group form-group-default required"
+                  [class.has-error]="isFieldValid('developmentHours')"
+                >
+                  <label>Development Hours</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="developmentHours"
+                    formControlName="developmentHours"
+                  >
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row clearfix">
+              <div class="col-md-4">
+                <div class="form-group form-group-default">
+                  <label>Contract Drawings Folder</label>
+                  <input
+                    type="string"
+                    class="form-control"
+                    name="conFolderLink"
+                    formControlName="conFolderLink"
+                  >
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div
+                  class="form-group form-group-default required"
+                  [class.has-error]="isFieldValid('actualOfaDate')"
+                >
+                  <label>Actual OFA Date</label>
+                  <pg-datepicker
+                    formControlName="actualOfaDate"
+                    required
+                  ></pg-datepicker>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div
+                  class="form-group form-group-default required"
+                  [class.has-error]="isFieldValid('bfaDate')"
+                >
+                  <label>BFA Date</label>
+                  <pg-datepicker
+                    formControlName="bfaDate"
+                    required
+                  ></pg-datepicker>
+                </div>
+              </div>
+            </div>
+
+            <div class="row clearfix">
+              <div class="col-md-12">
+                <div
+                  pgFormGroupDefault
+                  class="form-group form-group-default"
+                >
+                  <label>Team lead</label>
+                  <pg-select
+                    style="width: 100%;"
+                    formControlName="assignedTo"
+                    [PlaceHolder]="'Select Option'"
+                    AllowClear
+                    ShowSearch
+                  >
+                    <pg-option
+                      *ngFor="let teamLeads of clientStore.rows"
+                      [Label]="teamLeads.displayName"
+                      [Value]="teamLeads.userId"
+                    > </pg-option>
+                  </pg-select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row clearfix">
+              <div class="col-md-12">
+                <div class="form-group form-group-default">
+                  <label>Remarks</label>
+                  <input
+                    type="string"
+                    class="form-control"
+                    name="remarks"
+                    formControlName="remarks"
+                  >
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="row clearfix">
+            <div class="col-sm-12 col-lg-12 col-md-12 text-center">
+              <button
+                class="btn btn-primary  m-t-10"
+                type="submit"
+                (click)="save()"
+              >Save</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

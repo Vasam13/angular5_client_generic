@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"],
+    "baseUrl": "src",
+    "paths": {
+      "@types": ["app/@types/types"],
+      "@utils": ["app/@utils/Utils"],
+      // "@tables": ["app/@types/tables"],
+      "@constants": ["app/@types/Constants"],
+      "@code": ["app/@types/ResponseCodes"],
+      "@APIService": ["app/@core/APIManager"],
+      "@StoreService": ["app/@core/Store"],
+      "@message": ["app/@pages/components/message/message.service"],
+      "@components": ["app/@core/components"],
+      "@RootScope": ["app/@core/RootScope"]
+    }
+  }
+}

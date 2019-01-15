@@ -1,0 +1,36 @@
+<div class="card card-transparent m-b-10 m-t-10">
+  <div class="card-body p-l-30 p-b-0 p-r-30 p-t-0">
+    <h4 class="page-title inline btn-rounded m-b-0 m-t-5">
+      <em class="icon-grid"></em>&nbsp;Projects Dashboard </h4>
+    <button
+      *ngIf="canAddProject()"
+      class="btn btn-primary btn-rounded btn-cons pull-right m-b-10"
+      (click)="newProject()"
+    >
+      <em class="pg pg-plus"></em>&nbsp;Add Project</button>
+  </div>
+</div>
+<pg-container extraHorizontalClass="bg-white">
+  <div class="card card-default">
+    <div class="card-header p-t-10">
+      <div class="pull-right">
+        <div class="col-xs-12">
+          <input
+            type="text"
+            class="form-control pull-right"
+            placeholder="Search"
+            (keyup)="filter = $event.target.value"
+          > </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="card-body p-l-0 p-r-0">
+      <div class="table-responsive">
+        <app-grid
+          [store]="projectsStore"
+          [filter]="filter"
+        ></app-grid>
+      </div>
+    </div>
+  </div>
+</pg-container>

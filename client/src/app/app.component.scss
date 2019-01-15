@@ -1,0 +1,44 @@
+/deep/ .ngx-datatable .datatable-body .datatable-body-row .datatable-body-cell {
+  padding: 0px !important;
+}
+
+/deep/ .ngx-datatable .datatable-footer .datatable-footer-inner {
+  border-top: 1px solid #e6e6e6;
+}
+
+/deep/ .status-not-defined {
+  border-left: 3px solid #48b0f7;
+  // border-left: 3px solid #f55753;
+}
+
+/deep/ .status-estimated {
+  border-left: 3px solid #10cfbd;
+}
+
+/deep/ .status-open {
+  border-left: 3px solid #f8d053;
+}
+
+/deep/ .status-rfq {
+  border-left: 3px solid #48b0f7;
+}
+
+/deep/ .active-link {
+  color: #0090d9;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/deep/ .breadcrumb-last-link:hover {
+  color: #0090d9;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/deep/ .breadcrumb-current {
+  color: #0090d9;
+}
+
+/deep/ .width-90 {
+  width: 90px;
+}

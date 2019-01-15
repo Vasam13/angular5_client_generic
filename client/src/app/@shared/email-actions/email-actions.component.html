@@ -1,0 +1,200 @@
+<div class="card card-transparent m-b-10 m-t-10">
+  <div class="card-body p-l-30 p-b-0 p-r-30 p-t-0">
+    <h4 class="page-title inline btn-rounded m-b-0 m-t-5">
+      <em class="icon-envelope"></em>&nbsp;Email Actions </h4>
+
+    <button
+      class="btn btn-primary btn-cons pull-right m-b-10"
+      (click)="emailActionsStore.deleteSelected()"
+    >
+      <em class="icon-trash"></em>&nbsp;Delete</button>
+    <button
+      class="btn btn-primary btn-cons pull-right m-b-10"
+      (click)="save()"
+    >
+      <em class="icon-folder"></em>&nbsp;Save</button>
+    <button
+      class="btn btn-primary btn-cons pull-right m-b-10"
+      (click)="emailActionsStore.insertRow()"
+    >
+      <em class="icon-plus"></em>&nbsp;New</button>
+  </div>
+</div>
+
+<pg-container extraHorizontalClass="bg-white">
+  <div class="card card-default">
+    <div class="card-header p-t-10">
+      <div class="pull-right">
+        <div class="col-xs-12">
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="card-body p-l-0 p-r-0">
+      <app-grid [store]="emailActionsStore"></app-grid>
+    </div>
+  </div>
+</pg-container>
+
+<div
+  bsModal
+  #contentModal="bs-modal"
+  class="modal fade slide-up disable-scroll"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="false"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 m-t-20">
+              <form *ngIf="emailActionsStore.getCurrentRow()">
+                <div class="row">
+                  <div class="col-md-12">
+                    <label>Subject</label>
+                    <div class="form-group">
+                      <textarea
+                        type="text"
+                        class="form-control"
+                        name="remarks"
+                        placeholder="Enter email subject"
+                        rows="1"
+                        [(ngModel)]="emailActionsStore.getCurrentRow().subject"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <label>Email Body</label>
+                    <div class="form-group">
+                      <textarea
+                        type="text"
+                        class="form-control"
+                        name="remarks"
+                        placeholder="Enter email body"
+                        rows="5"
+                        [(ngModel)]="emailActionsStore.getCurrentRow().body"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 m-t-10  text-center">
+              <button
+                class="btn btn-tag btn-complete  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="contentModal.hide()"
+                type="button"
+              >Ok</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div
+  bsModal
+  #toMailsModal="bs-modal"
+  class="modal fade slide-up disable-scroll"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="false"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 m-t-20">
+              <form *ngIf="emailActionsStore.getCurrentRow()">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div
+                      pgFormGroupDefault
+                      class="form-group form-group-default"
+                    >
+                      <label>Add TO Emails</label>
+                      <span class="help"> e.g. "john@smith.com"</span>
+                      <pg-tag-control
+                        style="width: 100%;"
+                        [(ngModel)]="emailActionsStore.getCurrentRow().toEmails"
+                        name="toEmails"
+                      ></pg-tag-control>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 m-t-10  text-center">
+              <button
+                class="btn btn-tag btn-complete  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="toMailsModal.hide()"
+                type="button"
+              >Ok</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div
+  bsModal
+  #ccMailModal="bs-modal"
+  class="modal fade slide-up disable-scroll"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="false"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 m-t-20">
+              <form *ngIf="emailActionsStore.getCurrentRow()">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div
+                      pgFormGroupDefault
+                      class="form-group form-group-default"
+                    >
+                      <label>Add CC Emails</label>
+                      <span class="help"> e.g. "john@smith.com"</span>
+                      <pg-tag-control
+                        style="width: 100%;"
+                        [(ngModel)]="emailActionsStore.getCurrentRow().ccEmails"
+                        name="ccEmails"
+                      ></pg-tag-control>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 m-t-10  text-center">
+              <button
+                class="btn btn-tag btn-complete  btn-tag-primary btn-tag-rounded m-r-5"
+                (click)="ccMailModal.hide()"
+                type="button"
+              >Ok</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

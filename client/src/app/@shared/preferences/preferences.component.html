@@ -1,0 +1,210 @@
+<div class="register-container full-height sm-p-t-30 m-t-20">
+  <div class="d-flex justify-content-center flex-column full-height ">
+    <form
+      class="p-t-15"
+      role="form"
+      [formGroup]="userForm"
+    >
+      <div
+        class="form-group-attached"
+        formGroupName="userDetails"
+      >
+
+        <div class="row">
+          <div class="col-md-6">
+            <pg-upload
+              #ppUpload
+              ListType="picture-card"
+              [(FileList)]="fileList"
+              [ShowButton]="fileList.length < 1"
+              [Data]="userInfo"
+              Action="/api/upload/pp"
+            >
+              <div class="pic-placeholder">
+                <i
+                  class="fa fa-cloud-upload p-b-5"
+                  style="font-size: 21px;"
+                ></i>
+                <div class="fs-12">Upload</div>
+              </div>
+            </pg-upload>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div
+              pgFormGroupDefault
+              class="form-group form-group-default required"
+              [class.has-error]="isFieldValid('userName')"
+            >
+              <label>User Name</label>
+              <input
+                type="text"
+                class="form-control"
+                name="userName"
+                formControlName="userName"
+                required
+              >
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div
+              pgFormGroupDefault
+              class="form-group form-group-default required"
+              [class.has-error]="isFieldValid('displayName')"
+            >
+              <label>Display Name</label>
+              <input
+                type="text"
+                class="form-control"
+                name="displayName"
+                formControlName="displayName"
+                required
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div
+              pgFormGroupDefault
+              class="form-group form-group-default required"
+              [class.has-error]="isFieldValid('emailAddress')"
+            >
+              <label>Email Address</label>
+              <input
+                type="text"
+                class="form-control"
+                name="emailAddress"
+                formControlName="emailAddress"
+                required
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div
+              pgFormGroupDefault
+              class="form-group form-group-default"
+            >
+              <label>Password</label>
+              <input
+                type="password"
+                class="form-control"
+                name="oldPassword"
+                formControlName="oldPassword"
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div
+              pgFormGroupDefault
+              class="form-group form-group-default"
+            >
+              <label>New Password</label>
+              <input
+                type="password"
+                class="form-control"
+                name="newPassword"
+                formControlName="newPassword"
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <button
+            class="btn btn-primary btn-cons m-t-10"
+            (click)="saveChanges()"
+          >Save Changes</button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<div
+  bsModal
+  #popupModal="bs-modal"
+  class="modal fade slide-up disable-scroll"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="false"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <!-- <div class="modal-header clearfix text-left">
+          <button
+            class="close"
+            (click)="popupModal.hide()"
+            type="button"
+          ><i class="pg pg-close fs-14"></i>
+          </button>
+          <h5><span class="semi-bold">Info</span></h5>
+        </div> -->
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 m-t-10  text-center">
+              To reflect changes, we need a fresh login, are you ready proceed?
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 m-t-10  text-center">
+              <button
+                class="btn btn-primary m-t-5"
+                (click)="login()"
+                type="button"
+              >Yes</button>
+              <button
+                class="btn btn-primary m-t-5"
+                (click)="popupModal.hide()"
+                type="button"
+              >Later</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+</div>
+
+
+<div
+  bsModal
+  #reloadPopup="bs-modal"
+  class="modal fade slide-up disable-scroll"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="false"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 m-t-10  text-center">
+              Refresh/Reload the browser to reflect the changes
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 m-t-10  text-center">
+              <button
+                class="btn btn-primary m-t-5"
+                (click)="reloadPopup.hide()"
+                type="button"
+              >Ok</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

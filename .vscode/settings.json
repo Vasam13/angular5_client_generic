@@ -1,0 +1,30 @@
+{
+  "workbench.colorTheme": "Visual Studio Light",
+  "javascript.format.insertSpaceAfterConstructor": true,
+  "editor.formatOnSave": true,
+  "html.format.indentInnerHtml": false,
+  "tslint.autoFixOnSave": true,
+  "tslint.jsEnable": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.preferences.quoteStyle": "single",
+  "prettier.singleQuote": true,
+  "typescript.preferences.quoteStyle": "single",
+  "html.format.wrapAttributes": "force-expand-multiline",
+  "html.format.preserveNewLines": true,
+  "window.openFilesInNewWindow": "on",
+  "workbench.editor.enablePreview": false,
+  "javascript.format.placeOpenBraceOnNewLineForControlBlocks": false,
+  "javascript.format.placeOpenBraceOnNewLineForFunctions": false,
+
+  "typescript.format.placeOpenBraceOnNewLineForControlBlocks": false,
+  "typescript.format.placeOpenBraceOnNewLineForFunctions": false,
+  "window.zoomLevel": 0,
+  "workbench.statusBar.feedback.visible": false,
+  "files.exclude": {
+    "**/.git/objects": true,
+    "**/.git/subtree-cache": true,
+    "**/client/node_modules": true,
+    "**/client/dist": true,
+    "**/client/e2e": true
+  }
+}
