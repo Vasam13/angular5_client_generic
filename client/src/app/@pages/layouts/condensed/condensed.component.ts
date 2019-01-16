@@ -1,4 +1,4 @@
-import { RootScope } from '@RootScope';
+import RootScope from '@RootScope';
 import { Utils } from '@utils';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { RootLayout } from '../root/root.component';

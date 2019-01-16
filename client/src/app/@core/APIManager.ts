@@ -116,7 +116,7 @@ class APIManagerImpl implements APIManager {
   }
 
   public login(userName: string, password: string): Observable<boolean> {
-    const api = '/api/login';
+    const api = '/api/signin';
     const data = { userName, password };
     return Observable.create(observer => {
       const subject = this.post(api, data).subscribe((response: Response) => {
@@ -132,9 +132,9 @@ class APIManagerImpl implements APIManager {
           }
           observer.next(false);
           observer.complete();
-        } else {
-          RootScope.userInfo = <UserInfo>response;
-          Utils.setCookie(response);
+        } else if (response.rows.length > 0) {
+          RootScope.userInfo = <UserInfo>response.rows[0];
+          Utils.setCookie(RootScope.userInfo);
           observer.next(true);
           observer.complete();
         }

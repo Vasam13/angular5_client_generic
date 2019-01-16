@@ -87,7 +87,7 @@ export class Utils {
     CoockieUtils.deleteCoockie(key);
   }
 
-  static setCookie(userInfo: Response) {
+  static setCookie(userInfo: UserInfo) {
     if (Utils.getCookie()) {
       Utils.deleteCookie();
     }
@@ -121,11 +121,11 @@ export class Utils {
 
   static getReservedWords = (): string[] => {
     return ['$operation$'];
-  };
+  }
 
   static isReservedWord = (str: string): boolean => {
     return !(Utils.getReservedWords().indexOf(str) === -1);
-  };
+  }
 
   static _toCamelCase(str: string) {
     if (Utils.isReservedWord(str)) {
