@@ -153,7 +153,7 @@
                         >
                           <label>Date Of Birth</label>
                           <pg-datepicker
-                            
+
                             formControlName="dateOfBirth"
                           ></pg-datepicker>
                         </div>
@@ -231,7 +231,7 @@
                         >
                           <label>Date Of Join</label>
                           <pg-datepicker
-                            
+
                             formControlName="dateOfJoin"
                           ></pg-datepicker>
                         </div>
@@ -277,8 +277,8 @@
                       <div class="col-md-3">
                         <div
                           pgFormGroupDefault
-                          class="form-group form-group-default"
-                        >
+                          class="form-group form-group-default">
+
                           <label>Relieve Date</label>
                           <pg-datepicker
                             formControlName="relieveDate"
@@ -289,8 +289,7 @@
                       <div class="col-md-3">
                         <div
                           pgFormGroupDefault
-                          class="form-group form-group-default"
-                        >
+                          class="form-group form-group-default">
                           <label>Leaving Date</label>
                           <pg-datepicker
                             formControlName="leavingDate"
@@ -352,7 +351,7 @@
                             />
                           </div>
                       </div>
-                      
+
                     </div>
 
                     <div class="row clearfix">
@@ -372,6 +371,49 @@
                       </div>
 
                   </div>
+
+                  <label class="m-t-20">Extra Info</label>
+                  <div   *ngIf="extraInfoRows" formArrayName="extraInfo"
+                  class="form-group-attached"
+                  style="border-bottom: 1px solid rgba(0,0,0,0.07);">
+                      <div
+                      class="form-group-attached"
+                      *ngFor="let formgroup of employeeForm.get('extraInfo')['controls'];let _index = index">
+                        <div class="row clearfix" *ngIf="_index % 2 == 0">
+                            <div class="col-md-6" [formGroupName]="_index">
+                              <div class="form-group form-group-default">
+                                <!-- <label>{{formgroup.value.key}}</label> -->
+                                <label>
+                                  {{employeeForm.get('extraInfo').get([_index]).value.key}}
+                                </label>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  formControlName="value"
+                                />
+                              </div>
+                            </div>
+                            <div class="col-md-6" [formGroupName]="_index + 1" *ngIf="(_index+1) < employeeForm.get('extraInfo').length">
+                                <div class="form-group form-group-default">
+                                  <label>
+                                      {{employeeForm.get('extraInfo').get([_index+1]).value.key}}
+                                    </label>
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    formControlName="value"
+                                  />
+                                </div>
+                              </div>
+                              <div class="col-md-6" *ngIf="(_index+1) >= employeeForm.get('extraInfo').length">
+                                  <div class="form-group form-group-default">
+                                    </div>
+                              </div>
+                        </div>
+                    </div>
+                      
+                  </div>
+
                 </form>
               </div>
             </div>
