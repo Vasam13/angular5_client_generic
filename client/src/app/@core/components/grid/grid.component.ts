@@ -1,3 +1,4 @@
+import { ColumnMetaData } from './../../../@types/types';
 import { filter } from 'rxjs/operators/filter';
 import { Store, ColumnType } from '@types';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
@@ -50,6 +51,13 @@ export class GridComponent implements OnInit {
 
   getCheckboxValue(row, md) {
     return row[md.column] === 'Y';
+  }
+
+  getPlaceHolder(columnMD: ColumnMetaData<void>) {
+    if (columnMD.updateAllowed) {
+      return 'Click to edit';
+    }
+    return '';
   }
 
   getInputType(columnMD) {

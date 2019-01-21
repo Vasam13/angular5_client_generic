@@ -262,6 +262,7 @@ export interface AppRoute {
 
 export enum Roles {
   ADMINISTRATOR = 'administrator',
+  HR = 'HR',
   MANAGEMENT = 'management',
   SALES_PERSON = 'salesperson',
   SALES_MANAGER = 'salesmanager',

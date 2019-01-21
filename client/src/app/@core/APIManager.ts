@@ -146,7 +146,7 @@ class APIManagerImpl implements APIManager {
   private handleSessionExpires(res: Response) {
     if (
       res.status === Status.ERROR &&
-      res.message.indexOf('Session expired') > -1
+      res.message.toLocaleLowerCase().indexOf('session') > -1
     ) {
       Utils.handleSessionExpires(this.message, this.router);
     }

@@ -4,7 +4,7 @@
     "secure": false,
     "logLevel": "debug",
     "pathRewrite": {
-      "^/api/": "/Rest-Server-Java/api/"
+      "^/api/": "/Java_Rest_Server/api/"
     }
   }
 }

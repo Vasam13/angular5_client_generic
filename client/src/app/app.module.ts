@@ -95,6 +95,8 @@ import { BfaComponent } from './@application/bfa/bfa.component';
 import { TasksComponent } from './@application/tasks/tasks.component';
 import { EmailActionsComponent } from './@shared/email-actions/email-actions.component';
 import { GlobalTemplatesComponent } from './@shared/global-templates/global-templates.component';
+import { ManageEmployeesComponent } from './@application/manage-employees/manage-employees.component';
+import { EmployeeDetailsComponent } from './@application/employee-details/employee-details.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -140,7 +142,9 @@ export class AppHammerConfig extends HammerGestureConfig {
     BfaComponent,
     TasksComponent,
     EmailActionsComponent,
-    GlobalTemplatesComponent
+    GlobalTemplatesComponent,
+    ManageEmployeesComponent,
+    EmployeeDetailsComponent
   ],
   imports: [
     MessageModule,

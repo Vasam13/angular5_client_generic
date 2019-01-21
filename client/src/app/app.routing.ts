@@ -1,3 +1,4 @@
+import { ManageEmployeesComponent } from './@application/manage-employees/manage-employees.component';
 import { CanDeactivateGuard } from './@core/can-deactivate.guard';
 import { Routes } from '@angular/router';
 // Layouts
@@ -26,6 +27,7 @@ import { BfaComponent } from './@application/bfa/bfa.component';
 import { TasksComponent } from './@application/tasks/tasks.component';
 import { EmailActionsComponent } from './@shared/email-actions/email-actions.component';
 import { GlobalTemplatesComponent } from './@shared/global-templates/global-templates.component';
+import { EmployeeDetailsComponent } from './@application/employee-details/employee-details.component';
 
 export const AppRoutes: Routes = [
   {
@@ -106,6 +108,40 @@ export const AppRoutes: Routes = [
         path: 'global-templates',
         component: GlobalTemplatesComponent,
         data: { state: 'settings.global-templates' }
+      }
+    ]
+  },
+  {
+    path: 'settings',
+    component: CondensedComponent,
+    children: [
+      {
+        path: 'manage-employees',
+        component: ManageEmployeesComponent,
+        data: { state: 'settings.manage-employees' }
+      }
+    ]
+  },
+  {
+    path: 'settings',
+    component: CondensedComponent,
+    children: [
+      {
+        path: 'employee/:id',
+        component: EmployeeDetailsComponent,
+        data: { state: 'settings.employee-details' }
+      }
+    ]
+  },
+  {
+    path: 'sales',
+    component: CondensedComponent,
+    children: [
+      {
+        path: 'new',
+        component: NewSaleComponent,
+        data: { state: 'sales.new' },
+        canDeactivate: [CanDeactivateGuard]
       }
     ]
   },

@@ -98,7 +98,11 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
             this.popupModal.show();
           }
           if (row.$operation$ === QueryOperation.UPDATE) {
-            if ( row.$actionParams$ && (row.$actionParams$.resetPassword = 'Y') && row.password) {
+            if (
+              row.$actionParams$ &&
+              (row.$actionParams$.resetPassword = 'Y') &&
+              row.password
+            ) {
               this.currentUser = row.userName;
               this.currentEmail = row.emailAddress;
               this.popupPassRessted.show();

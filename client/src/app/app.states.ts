@@ -52,6 +52,23 @@ export const AppStates: States = [
     }
   },
   {
+    state: 'settings.manage-employees',
+    url: '/settings/manage-employees',
+    roleCodes: [Roles.ADMINISTRATOR, Roles.HR],
+    menu: {
+      routerLink: '/settings/manage-employees',
+      label: 'Employees',
+      details: 'View/Edit employee info',
+      iconType: 'icon',
+      iconName: 'people'
+    }
+  },
+  {
+    state: 'settings.employee-details',
+    url: '/settings/employee/id',
+    roleCodes: [Roles.ADMINISTRATOR, Roles.HR]
+  },
+  {
     state: 'sales',
     url: '/sales',
     isHome: 'Y',
