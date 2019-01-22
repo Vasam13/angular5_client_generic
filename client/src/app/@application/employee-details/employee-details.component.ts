@@ -27,6 +27,12 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
   employeeForm: FormGroup;
   maritalStatus = ['Single', 'Married', 'Not Mentioned'];
   yesOrNO = ['Y', 'N'];
+  countryStore1: Store;
+  statesStore1: Store;
+  countryStore2: Store;
+  statesStore2: Store;
+  countryStore3: Store;
+  statesStore3: Store;
 
   constructor(
     private storeService: StoreService,
@@ -68,6 +74,7 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
       details: this.formBuilder.group(this.getDetailsFormGroup()),
       extraInfo: this.formBuilder.array([])
     });
+    this.initCountryStateStores();
     if (this.employeeId > -1) {
       this.employeeStore.whereClause =
         'user_id = ? and (deleted = ? or deleted is null)';
@@ -79,6 +86,7 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
         if (response.status === Status.SUCCESS && response.rows.length > 0) {
           this.employeeRow = response.rows[0];
           this.copyRowToForm('details', this.employeeRow);
+          this.queryStateStores();
         } else {
           this.throwError1(this.employeeId);
         }
@@ -135,12 +143,12 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
     return control.invalid && (control.dirty || control.touched);
   }
 
-  save = () => {
+  save() {
     console.log(this.employeeForm.value.details);
     console.log(this.employeeForm.value.extraInfo);
-  };
+  }
 
-  onNameChange = () => {
+  onNameChange() {
     const details = this.employeeForm.value.details;
     // if (this.employeeId === -1) {
     const formGroup = this.employeeForm.controls['details'] as FormGroup;
@@ -156,11 +164,17 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
     }
     formGroup.controls['displayName'].setValue(name.trim());
     //  }
-  };
+  }
 
   ngOnDestroy() {
     this.employeeStore.destroy();
     this.extraInfoStore.destroy();
+    this.countryStore1.destroy();
+    this.statesStore1.destroy();
+    this.countryStore2.destroy();
+    this.statesStore2.destroy();
+    this.countryStore3.destroy();
+    this.statesStore3.destroy();
   }
 
   getBorderStyleFix(index: number) {
@@ -212,10 +226,193 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
       cofirmDate: new FormControl(),
       status: new FormControl(),
       leavingReason: new FormControl(),
+
+      contactAddressName: new FormControl(),
+      contactAddressEmail: new FormControl(),
+      contactAddressAddress1: new FormControl(),
+      contactAddressAddress2: new FormControl(),
+      contactAddressAddress3: new FormControl(),
+      contactAddressCity: new FormControl(),
+      contactAddressState: new FormControl(),
+      contactAddressCountry: new FormControl(),
+      contactAddressPin: new FormControl(),
+      contactAddressPhone1: new FormControl(),
+      contactAddressPhone2: new FormControl(),
+      contactAddressMobile: new FormControl(),
+
+      presentAddressName: new FormControl(),
+      presentAddressEmail: new FormControl(),
+      presentAddressAddress1: new FormControl(),
+      presentAddressAddress2: new FormControl(),
+      presentAddressAddress3: new FormControl(),
+      presentAddressCity: new FormControl(),
+      presentAddressState: new FormControl(),
+      presentAddressCountry: new FormControl(),
+      presentAddressPin: new FormControl(),
+      presentAddressPhone1: new FormControl(),
+      presentAddressPhone2: new FormControl(),
+      presentAddressMobile: new FormControl(),
+
+      permanentAddressName: new FormControl(),
+      permanentAddressEmail: new FormControl(),
+      permanentAddressAddress1: new FormControl(),
+      permanentAddressAddress2: new FormControl(),
+      permanentAddressAddress3: new FormControl(),
+      permanentAddressCity: new FormControl(),
+      permanentAddressState: new FormControl(),
+      permanentAddressCountry: new FormControl(),
+      permanentAddressPin: new FormControl(),
+      permanentAddressPhone1: new FormControl(),
+      permanentAddressPhone2: new FormControl(),
+      permanentAddressMobile: new FormControl(),
+
       createDate: new FormControl(),
       createUserId: new FormControl(),
       updateDate: new FormControl(),
       updateUserId: new FormControl()
     };
+  }
+
+  filterCountry(countryStore: Store, countryName: string) {
+    if (countryStore && countryStore.rows) {
+      const selectedCoutries = countryStore.rows.filter(
+        _country => _country.name === countryName
+      );
+      if (selectedCoutries.length > 0) {
+        return selectedCoutries[0];
+      }
+    }
+  }
+
+  queryStateStores() {
+    if (this.employeeRow.permanentAddressCountry) {
+      const country = this.filterCountry(
+        this.countryStore1,
+        this.employeeRow.permanentAddressCountry
+      );
+      if (country) {
+        this.statesStore1.whereClauseParams = [country.id];
+        this.statesStore1.query();
+      }
+    }
+    if (this.employeeRow.presentAddressCountry) {
+      const country = this.filterCountry(
+        this.countryStore2,
+        this.employeeRow.presentAddressCountry
+      );
+      if (country) {
+        this.statesStore2.whereClauseParams = [country.id];
+        this.statesStore2.query();
+      }
+    }
+    if (this.employeeRow.permanentAddressCountry) {
+      const country = this.filterCountry(
+        this.countryStore3,
+        this.employeeRow.permanentAddressCountry
+      );
+      if (country) {
+        this.statesStore3.whereClauseParams = [country.id];
+        this.statesStore3.query();
+      }
+    }
+  }
+
+  initCountryStateStores() {
+    this.countryStore1 = this.storeService.getInstance(
+      'Countries',
+      'countries',
+      [],
+      { skipOrderBy: true }
+    );
+    this.countryStore1.query();
+    this.statesStore1 = this.storeService.getInstance('States', 'states', [], {
+      skipOrderBy: true
+    });
+    this.statesStore1.whereClause = 'country_id = ?';
+
+    this.countryStore2 = this.storeService.getInstance(
+      'Countries',
+      'countries',
+      [],
+      { skipOrderBy: true }
+    );
+    this.countryStore2.query();
+    this.statesStore2 = this.storeService.getInstance('States', 'states', [], {
+      skipOrderBy: true
+    });
+    this.statesStore2.whereClause = 'country_id = ?';
+
+    this.countryStore3 = this.storeService.getInstance(
+      'Countries',
+      'countries',
+      [],
+      { skipOrderBy: true }
+    );
+    this.countryStore3.query();
+    this.statesStore3 = this.storeService.getInstance('States', 'states', [], {
+      skipOrderBy: true
+    });
+    this.statesStore3.whereClause = 'country_id = ?';
+  }
+
+  onCountryChange1(open: string) {
+    if (!open) {
+      const country = this.employeeForm.value.details.contactAddressCountry;
+      if (!country) {
+        return;
+      }
+      if (this.countryStore1 && this.countryStore1.rows) {
+        const selectedCoutries = this.countryStore1.rows.filter(
+          _country => _country.name === country
+        );
+        if (selectedCoutries.length > 0) {
+          const form = this.employeeForm.controls['details'] as FormGroup;
+          form.controls['contactAddressState'].setValue(null);
+          this.statesStore1.whereClause = 'country_id = ?';
+          this.statesStore1.whereClauseParams = [selectedCoutries[0].id];
+          this.statesStore1.query();
+        }
+      }
+    }
+  }
+  onCountryChange2(open: string) {
+    if (!open) {
+      const country = this.employeeForm.value.details.presentAddressCountry;
+      if (!country) {
+        return;
+      }
+      if (this.countryStore1 && this.countryStore1.rows) {
+        const selectedCoutries = this.countryStore1.rows.filter(
+          _country => _country.name === country
+        );
+        if (selectedCoutries.length > 0) {
+          const form = this.employeeForm.controls['details'] as FormGroup;
+          form.controls['presentAddressState'].setValue(null);
+          this.statesStore2.whereClause = 'country_id = ?';
+          this.statesStore2.whereClauseParams = [selectedCoutries[0].id];
+          this.statesStore2.query();
+        }
+      }
+    }
+  }
+  onCountryChange3(open: string) {
+    if (!open) {
+      const country = this.employeeForm.value.details.permanentAddressCountry;
+      if (!country) {
+        return;
+      }
+      if (this.countryStore1 && this.countryStore1.rows) {
+        const selectedCoutries = this.countryStore1.rows.filter(
+          _country => _country.name === country
+        );
+        if (selectedCoutries.length > 0) {
+          const form = this.employeeForm.controls['details'] as FormGroup;
+          form.controls['permanentAddressState'].setValue(null);
+          this.statesStore3.whereClause = 'country_id = ?';
+          this.statesStore3.whereClauseParams = [selectedCoutries[0].id];
+          this.statesStore3.query();
+        }
+      }
+    }
   }
 }

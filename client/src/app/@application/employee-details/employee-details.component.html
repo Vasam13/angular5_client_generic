@@ -414,6 +414,145 @@
                       
                   </div>
 
+                   <label class="m-t-20">Contact Address</label>
+                   <div formGroupName="details" class="form-group-attached">
+                      <div class="row clearfix">
+                          <div class="col-md-6">
+                            <div class="form-group form-group-default">
+                              <label>Name</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                formControlName="contactAddressName"/>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group form-group-default">
+                                <label>Email</label>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  formControlName="contactAddressEmail"/>
+                              </div>
+                            </div>
+                      </div>
+                      <div class="row clearfix">
+                            <div class="col-md-6">
+                              <div class="form-group form-group-default">
+                                <label>Address1</label>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  formControlName="contactAddressAddress1"/>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-group-default">
+                                  <label>Address2</label>
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    formControlName="contactAddressAddress2"/>
+                                </div>
+                              </div>
+                      </div>
+                      <div class="row clearfix">
+                              <div class="col-md-6">
+                                <div class="form-group form-group-default">
+                                  <label>Address3</label>
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    formControlName="contactAddressAddress3"/>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                  <div class="form-group form-group-default">
+                                    <label>City</label>
+                                    <input
+                                      type="text"
+                                      class="form-control"
+                                      formControlName="contactAddressCity"/>
+                                  </div>
+                              </div>
+                      </div>
+                      <div class="row clearfix">
+                          <div class="col-md-4">
+                            <div class="form-group form-group-default">
+                              <label>State</label>
+                              <pg-select
+                                style="width: 100%;"
+                                formControlName="contactAddressState"
+                                [PlaceHolder]="'Select Option'"
+                                AllowClear
+                                ShowSearch>
+                                <pg-option
+                                  *ngFor="let state of statesStore1.rows"
+                                  [Label]="state.name"
+                                  [Value]="state.name"
+                                > </pg-option>
+                              </pg-select>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group form-group-default">
+                                <label>Country</label>
+                                  <pg-select
+                                      (OpenChange)="onCountryChange1($event)"
+                                      style="width: 100%;"
+                                      formControlName="contactAddressCountry"
+                                      [PlaceHolder]="'Select Option'"
+                                      AllowClear
+                                      ShowSearch>
+                                  <pg-option
+                                    *ngFor="let country of countryStore1.rows"
+                                    [Label]="country.name"
+                                    [Value]="country.name"
+                                  > </pg-option>
+                                </pg-select>
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group form-group-default">
+                                <label>Pin</label>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  formControlName="contactAddressPin"/>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row clearfix">
+                          <div class="col-md-4">
+                            <div class="form-group form-group-default">
+                              <label>Phone1</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                formControlName="contactAddressPhone1"/>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group form-group-default">
+                                <label>Phone2</label>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  formControlName="contactAddressPhone2"/>
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group form-group-default">
+                                <label>Mobile</label>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  formControlName="contactAddressMobile"/>
+                              </div>
+                          </div>
+                      </div>
+                   </div>
+
                 </form>
               </div>
             </div>
