@@ -1,8 +1,8 @@
 import { Utils } from '@utils';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { StoreService } from '@StoreService';
-import { Store, Status, Row } from '@types';
+import { Store, Status, Row, QueryOperation } from '@types';
 import { MessageService } from '@message';
 import { Router } from '@angular/router';
 import {
@@ -33,6 +33,9 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
   statesStore2: Store;
   countryStore3: Store;
   statesStore3: Store;
+
+  @ViewChild('form')
+  form: NgForm;
 
   constructor(
     private storeService: StoreService,
@@ -107,6 +110,30 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  gotoHome() {
+    this.router.navigate(['/settings/manage-employees']);
+  }
+
+  save() {
+    if (!this.isFormValid()) {
+      return;
+    }
+    const userRow: Row = this.employeeForm.value.details;
+    if (this.employeeId > -1) {
+      userRow.$operation$ = QueryOperation.UPDATE;
+    } else {
+      userRow.$operation$ = QueryOperation.INSERT;
+    }
+
+    this.employeeStore.saveRows([<Row>userRow]).then(_res => {
+      // Utils.notifyInfo(this.message, 'Success', 'Lead saved!');
+      if (_res.status === Status.SUCCESS) {
+        this.resetAllForms();
+        this.gotoHome();
+      }
+    });
+  }
+
   copyRowsToForm(formGroup: string, rows: Row[]) {
     const formArray = this.employeeForm.get(formGroup)['controls'] as FormArray;
     for (let i = 0; i < formArray.length; i++) {
@@ -141,11 +168,6 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
     const form = this.employeeForm.controls[formGroup] as FormGroup;
     const control = form.controls[field];
     return control.invalid && (control.dirty || control.touched);
-  }
-
-  save() {
-    console.log(this.employeeForm.value.details);
-    console.log(this.employeeForm.value.extraInfo);
   }
 
   onNameChange() {
@@ -223,7 +245,7 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
       leavingDate: new FormControl(),
       noticePeriod: new FormControl(),
       isNoticeRequired: new FormControl(),
-      cofirmDate: new FormControl(),
+      confirmDate: new FormControl(),
       status: new FormControl(),
       leavingReason: new FormControl(),
 
@@ -282,6 +304,19 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
         return selectedCoutries[0];
       }
     }
+  }
+
+  isFormValid() {
+    if (this.employeeForm.valid) {
+      return true;
+    } else {
+      Utils.notifyError(this.message, 'Please fill required fields');
+      return false;
+    }
+  }
+
+  resetAllForms() {
+    this.form.form.reset();
   }
 
   queryStateStores() {
