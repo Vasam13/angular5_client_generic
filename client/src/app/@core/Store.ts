@@ -9,6 +9,7 @@ import { Injectable } from '@angular/core';
 import { MessageService } from '@message';
 import { v4 as uuid } from 'uuid';
 import { Utils } from '@utils';
+import moment = require('moment');
 
 @Injectable()
 export class StoreService {
@@ -294,10 +295,12 @@ class StoreImpl implements Store {
             delete row[key];
           }
           if (row[key] instanceof Date) {
+            row[key] = moment(row[key]).format('YYYY-MM-DD HH:mm:ss');
+            /*
             row[key] = row[key]
               .toISOString()
               .slice(0, 19)
-              .replace('T', ' ');
+              .replace('T', ' '); */
           }
         });
       });
