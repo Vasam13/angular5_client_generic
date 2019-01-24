@@ -320,10 +320,10 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
   }
 
   queryStateStores() {
-    if (this.employeeRow.permanentAddressCountry) {
+    if (this.employeeRow.contactAddressCountry) {
       const country = this.filterCountry(
         this.countryStore1,
-        this.employeeRow.permanentAddressCountry
+        this.employeeRow.contactAddressCountry
       );
       if (country) {
         this.statesStore1.whereClauseParams = [country.id];

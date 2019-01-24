@@ -20,7 +20,7 @@
           Type="simple"
           ShowPagination="true">
           <pg-tab>
-            <ng-template #TabHeading>Basic Info</ng-template>
+            <ng-template #TabHeading><em class="icon-user"></em>&nbsp;Basic Info</ng-template>
             <div class="row column-seperation">
               <div
                 class="col-lg-12"
@@ -32,7 +32,7 @@
                   autocomplete="on"
                   [formGroup]="employeeForm">
                   
-                  <label>Personal Details </label>
+                  <label><em class="icon-user-following"></em>&nbsp;Personal Details </label>
                   <div
                     formGroupName="details"
                     class="form-group-attached">
@@ -175,7 +175,7 @@
                     </div>
                   </div>
 
-                  <label class="m-t-20">Professional Details</label>
+                  <label class="m-t-30"><em class="icon-layers"></em>&nbsp;Professional Details</label>
                   <div
                     formGroupName="details"
                     class="form-group-attached" >
@@ -213,11 +213,16 @@
                       <div class="col-md-3">
                         <div class="form-group form-group-default">
                           <label>Left Org</label>
-                          <input
-                            type="checkbox"
-                            value="1"
-                            class="form-control"
-                            formControlName="leftOrg"/>
+                           <pg-select
+                            style="width: 100%;"
+                            formControlName="leftOrg"
+                            [PlaceHolder]="'Select Option'">
+                            <pg-option
+                              *ngFor="let val of yesOrNO"
+                              [Label]="val"
+                              [Value]="val">
+                            </pg-option>
+                          </pg-select>
                         </div>
                       </div>
                       <div class="col-md-3">
@@ -312,7 +317,7 @@
                     </div>
                   </div>
 
-                  <label class="m-t-20">Extra Info</label>
+                  <label class="m-t-30"><em class="icon-list"></em>&nbsp;Extra Info</label>
                   <div
                     *ngIf="extraInfoRows"
                     formArrayName="extraInfo"
@@ -359,7 +364,7 @@
                     </div>
                   </div>
 
-                  <label class="m-t-20">Contact Address</label>
+                  <label class="m-t-30"><em class="icon-location-pin"></em>&nbsp;Contact Address</label>
                   <div
                     formGroupName="details"
                     class="form-group-attached" >
@@ -425,6 +430,24 @@
                     </div>
                     <div class="row clearfix">
                       <div class="col-md-4">
+                            <div class="form-group form-group-default">
+                              <label>Country</label>
+                              <pg-select
+                                (OpenChange)="onCountryChange1($event)"
+                                style="width: 100%;"
+                                formControlName="contactAddressCountry"
+                                [PlaceHolder]="'Select Option'"
+                                AllowClear
+                                ShowSearch >
+                                <pg-option
+                                  *ngFor="let country of countryStore1.rows"
+                                  [Label]="country.name"
+                                  [Value]="country.name">
+                                </pg-option>
+                              </pg-select>
+                            </div>
+                      </div>
+                      <div class="col-md-4">
                         <div class="form-group form-group-default">
                           <label>State</label>
                           <pg-select
@@ -437,24 +460,6 @@
                               *ngFor="let state of statesStore1.rows"
                               [Label]="state.name"
                               [Value]="state.name">
-                            </pg-option>
-                          </pg-select>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group form-group-default">
-                          <label>Country</label>
-                          <pg-select
-                            (OpenChange)="onCountryChange1($event)"
-                            style="width: 100%;"
-                            formControlName="contactAddressCountry"
-                            [PlaceHolder]="'Select Option'"
-                            AllowClear
-                            ShowSearch >
-                            <pg-option
-                              *ngFor="let country of countryStore1.rows"
-                              [Label]="country.name"
-                              [Value]="country.name">
                             </pg-option>
                           </pg-select>
                         </div>
@@ -500,7 +505,7 @@
                     </div>
                   </div>
 
-                  <label class="m-t-20">Present Address</label>
+                  <label class="m-t-30"><em class="icon-location-pin"></em>&nbsp;Present Address</label>
                   <div
                     formGroupName="details"
                     class="form-group-attached">
@@ -566,6 +571,24 @@
                     </div>
                     <div class="row clearfix">
                       <div class="col-md-4">
+                            <div class="form-group form-group-default">
+                              <label>Country</label>
+                              <pg-select
+                                (OpenChange)="onCountryChange2($event)"
+                                style="width: 100%;"
+                                formControlName="presentAddressCountry"
+                                [PlaceHolder]="'Select Option'"
+                                AllowClear
+                                ShowSearch>
+                                <pg-option
+                                  *ngFor="let country of countryStore2.rows"
+                                  [Label]="country.name"
+                                  [Value]="country.name">
+                                </pg-option>
+                              </pg-select>
+                            </div>
+                       </div>
+                      <div class="col-md-4">
                         <div class="form-group form-group-default">
                           <label>State</label>
                           <pg-select
@@ -582,24 +605,7 @@
                           </pg-select>
                         </div>
                       </div>
-                      <div class="col-md-4">
-                        <div class="form-group form-group-default">
-                          <label>Country</label>
-                          <pg-select
-                            (OpenChange)="onCountryChange2($event)"
-                            style="width: 100%;"
-                            formControlName="presentAddressCountry"
-                            [PlaceHolder]="'Select Option'"
-                            AllowClear
-                            ShowSearch>
-                            <pg-option
-                              *ngFor="let country of countryStore2.rows"
-                              [Label]="country.name"
-                              [Value]="country.name">
-                            </pg-option>
-                          </pg-select>
-                        </div>
-                      </div>
+                      
                       <div class="col-md-4">
                         <div class="form-group form-group-default">
                           <label>Pin</label>
@@ -641,7 +647,7 @@
                     </div>
                   </div>
 
-                  <label class="m-t-20">Permanent Address</label>
+                  <label class="m-t-30"><em class="icon-location-pin"></em>&nbsp;Permanent Address</label>
                   <div
                     formGroupName="details"
                     class="form-group-attached" >
@@ -708,6 +714,24 @@
                     </div>
                     <div class="row clearfix">
                       <div class="col-md-4">
+                          <div class="form-group form-group-default">
+                            <label>Country</label>
+                            <pg-select
+                              (OpenChange)="onCountryChange3($event)"
+                              style="width: 100%;"
+                              formControlName="permanentAddressCountry"
+                              [PlaceHolder]="'Select Option'"
+                              AllowClear
+                              ShowSearch >
+                              <pg-option
+                                *ngFor="let country of countryStore3.rows"
+                                [Label]="country.name"
+                                [Value]="country.name" >
+                              </pg-option>
+                            </pg-select>
+                          </div>
+                      </div>
+                      <div class="col-md-4">
                         <div class="form-group form-group-default">
                           <label>State</label>
                           <pg-select
@@ -724,24 +748,7 @@
                           </pg-select>
                         </div>
                       </div>
-                      <div class="col-md-4">
-                        <div class="form-group form-group-default">
-                          <label>Country</label>
-                          <pg-select
-                            (OpenChange)="onCountryChange3($event)"
-                            style="width: 100%;"
-                            formControlName="permanentAddressCountry"
-                            [PlaceHolder]="'Select Option'"
-                            AllowClear
-                            ShowSearch >
-                            <pg-option
-                              *ngFor="let country of countryStore3.rows"
-                              [Label]="country.name"
-                              [Value]="country.name" >
-                            </pg-option>
-                          </pg-select>
-                        </div>
-                      </div>
+                      
                       <div class="col-md-4">
                         <div class="form-group form-group-default">
                           <label>Pin</label>
