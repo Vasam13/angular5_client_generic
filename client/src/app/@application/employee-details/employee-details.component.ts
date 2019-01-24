@@ -21,6 +21,7 @@ import {
 export class EmployeeDetailsComponent implements OnInit, OnDestroy {
   employeeId: number;
   employeeStore: Store;
+  managerStore: Store;
   extraInfoStore: Store;
   employeeRow: Row;
   extraInfoRows: Row[];
@@ -68,6 +69,11 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
       'employees',
       []
     );
+    this.managerStore = this.storeService.getInstance('users', 'managers', [], {
+      selectParams: ['userId', 'employeeNo', 'displayName']
+    });
+    this.managerStore.query();
+
     this.extraInfoStore = this.storeService.getInstance(
       'usersExtraInfo',
       'usersExtraInfo',
@@ -197,6 +203,7 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
     this.statesStore2.destroy();
     this.countryStore3.destroy();
     this.statesStore3.destroy();
+    this.managerStore.destroy();
   }
 
   getBorderStyleFix(index: number) {
@@ -238,7 +245,6 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
       title: new FormControl(),
       dateOfJoin: new FormControl(),
       managerNo: new FormControl(),
-      managerName: new FormControl(),
       leftOrg: new FormControl(),
       resignSubmitDate: new FormControl(),
       relieveDate: new FormControl(),
@@ -303,6 +309,12 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
       if (selectedCoutries.length > 0) {
         return selectedCoutries[0];
       }
+    }
+  }
+
+  onManagerSelect(open: string) {
+    console.log(open);
+    if (!open) {
     }
   }
 

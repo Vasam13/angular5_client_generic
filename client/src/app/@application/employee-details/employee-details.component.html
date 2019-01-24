@@ -112,11 +112,11 @@
                         <div  class="form-group form-group-default required" [class.has-error]="isFieldValid(0, 'gender')" >
                           <label>Gender</label>
                           <div class="radio radio-success">
-                            <input id="male" name="gender"  type="radio" value="M" formControlName="gender"  checked="checked"/>
+                            <input id="male"  type="radio" value="M" formControlName="gender"  checked="checked" required/>
                             <label for="male" style="display: inline-block !important; margin-right: 15px !important;">
                               Male
                             </label>
-                            <input  id="female" name="gender"  type="radio" value="F"  formControlName="gender" />
+                            <input  id="female"  type="radio" value="F"  formControlName="gender" required/>
                             <label for="female" style="display: inline-block !important; margin-right: 15px !important;">
                               Female
                             </label>
@@ -159,6 +159,7 @@
                             type="email" 
                             class="form-control"
                             formControlName="emailAddress"
+                            required
                           />
                         </div>
                       </div>
@@ -201,10 +202,19 @@
                       <div class="col-md-4">
                         <div class="form-group form-group-default">
                           <label>Manager</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            formControlName="managerName"/>
+                          <pg-select
+                              (OpenChange)="onManagerSelect($event)"
+                              style="width: 100%;"
+                              formControlName="managerNo"
+                              [PlaceHolder]="'Select Option'"
+                              AllowClear
+                              ShowSearch >
+                              <pg-option
+                                *ngFor="let manager of managerStore.rows"
+                                [Label]="manager.displayName"
+                                [Value]="manager.employeeNo">
+                              </pg-option>
+                            </pg-select>
                         </div>
                       </div>
                     </div>
@@ -260,7 +270,6 @@
                           <input
                             type="text"
                             class="form-control"
-                            name="noticePeriod"
                             formControlName="noticePeriod" />
                         </div>
                       </div>

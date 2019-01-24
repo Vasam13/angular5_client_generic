@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { ColumnMetaData, ColumnType } from '@types';
+import { ColumnMetaData, ColumnType, Status } from '@types';
 import { StoreService } from '@StoreService';
 import { Store } from '@types';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -10,7 +10,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./manage-employees.component.scss']
 })
 export class ManageEmployeesComponent implements OnInit, OnDestroy {
+  filter: string;
   employeeStore: Store;
+  managerStore = this.storeService.getInstance('users', 'managers', [], {
+    selectParams: ['userId', 'employeeNo', 'displayName']
+  });
 
   constructor(private storeService: StoreService, private router: Router) {}
 
@@ -20,15 +24,20 @@ export class ManageEmployeesComponent implements OnInit, OnDestroy {
       'employees',
       this.getEmployeeColumnMD(),
       {
-        autoQuery: true,
         whereClause: 'deleted = ? or deleted is null',
         whereClauseParams: ['N']
       }
     );
+    this.employeeStore.query().then(response => {
+      if (response.status === Status.SUCCESS && response.rows.length > 0) {
+        this.managerStore.rows = response.rows;
+      }
+    });
   }
 
   ngOnDestroy() {
     this.employeeStore.destroy();
+    this.managerStore.destroy();
   }
 
   private getEmployeeColumnMD = (): ColumnMetaData<void>[] => {
@@ -69,10 +78,20 @@ export class ManageEmployeesComponent implements OnInit, OnDestroy {
         type: ColumnType.STRING
       },
       {
-        column: 'managerName',
+        column: 'managerNo',
         title: 'Manager',
-        type: ColumnType.STRING
+        type: ColumnType.DROP_DOWN,
+        dropDownConfiguration: {
+          store: this.managerStore,
+          displayColumn: 'displayName',
+          valueColumn: 'employeeNo'
+        }
       },
+      // {
+      //   column: 'managerName',
+      //   title: 'Manager',
+      //   type: ColumnType.STRING
+      // },
       {
         column: 'leftOrg',
         title: 'Left Org',

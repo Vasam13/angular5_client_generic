@@ -20,12 +20,37 @@
 
 <pg-container extraHorizontalClass="bg-white">
   <div class="card card-default">
-    <div class="card-header p-t-10">
-      <div class="pull-right"><div class="col-xs-12"></div></div>
-      <div class="clearfix"></div>
+    <div class="card-header p-t-10 p-l-5">
+      <div class="pull-left">
+        <div class="col-xs-12">
+          <div class="input-group transparent">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="icon-magnifier"></i>
+              </span>
+            </div>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search"
+              (keyup)="filter = $event.target.value"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="pull-right">
+        <span
+          class="input-group-text transparent m-t-5"
+          style="border: 0px !important;font-size: 16px;color: #0090d9;cursor: pointer;"
+          (click)="employeeStore.query()"
+        >
+          <i class="icon-refresh"></i>
+        </span>
+      </div>
     </div>
+
     <div class="card-body p-l-0 p-r-0">
-      <app-grid [store]="employeeStore"></app-grid>
+      <app-grid [store]="employeeStore" [filter]="filter"> </app-grid>
     </div>
   </div>
 </pg-container>
