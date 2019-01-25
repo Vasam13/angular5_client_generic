@@ -185,23 +185,6 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
     return control.invalid && (control.dirty || control.touched);
   }
 
-  onNameChange() {
-    const details = this.employeeForm.value.details;
-    // if (this.employeeId === -1) {
-    const formGroup = this.employeeForm.controls['details'] as FormGroup;
-    let name = '';
-    if (details['firstName']) {
-      name += details['firstName'];
-    }
-    if (details['middleName']) {
-      name += ' ' + details['middleName'];
-    }
-    if (details['lastName']) {
-      name += ' ' + details['lastName'];
-    }
-    formGroup.controls['displayName'].setValue(name.trim());
-    //  }
-  }
 
   ngOnDestroy() {
     this.employeeStore.destroy();
@@ -241,9 +224,6 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
     return {
       userId: new FormControl(),
       employeeNo: new FormControl(),
-      firstName: new FormControl(),
-      middleName: new FormControl(),
-      lastName: new FormControl(),
       displayName: new FormControl(),
       fatherName: new FormControl(),
       gender: new FormControl(),
