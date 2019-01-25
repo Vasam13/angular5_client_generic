@@ -35,6 +35,15 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
   countryStore3: Store;
   statesStore3: Store;
 
+  /* ShiftName	ShiftCode
+    Weekly Off	WO
+    Fixed Shift	FS
+    NoShift	NS
+    Holiday	H
+    General	GS
+    Evening Shift	Evening Shift
+    Morning Shift	Morning Shift*/
+
   @ViewChild('form')
   form: NgForm;
 

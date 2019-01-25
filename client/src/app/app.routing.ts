@@ -67,17 +67,17 @@ export const AppRoutes: Routes = [
       }
     ]
   },
-  {
-    path: 'settings',
-    component: CondensedComponent,
-    children: [
-      {
-        path: 'manage-users',
-        component: ManageUsersComponent,
-        data: { state: 'settings.manage-users' }
-      }
-    ]
-  },
+  // {
+  //   path: 'settings',
+  //   component: CondensedComponent,
+  //   children: [
+  //     {
+  //       path: 'manage-users',
+  //       component: ManageUsersComponent,
+  //       data: { state: 'settings.manage-users' }
+  //     }
+  //   ]
+  // },
   {
     path: 'settings',
     component: CondensedComponent,

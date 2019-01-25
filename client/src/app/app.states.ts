@@ -6,18 +6,18 @@ export const AppStates: States = [
     url: '/settings/preferences',
     roleCodes: [Roles.ALL_USERS]
   },
-  {
-    state: 'settings.manage-users',
-    isHome: 'Y',
-    url: '/settings/manage-users',
-    roleCodes: [Roles.ADMINISTRATOR],
-    menu: {
-      label: 'Manage Users',
-      routerLink: '/settings/manage-users',
-      iconType: 'icon',
-      iconName: 'people'
-    }
-  },
+  // {
+  //   state: 'settings.manage-users',
+  //   isHome: 'Y',
+  //   url: '/settings/manage-users',
+  //   roleCodes: [Roles.ADMINISTRATOR],
+  //   menu: {
+  //     label: 'Manage Users',
+  //     routerLink: '/settings/manage-users',
+  //     iconType: 'icon',
+  //     iconName: 'people'
+  //   }
+  // },
   {
     state: 'settings.manage-roles',
     url: '/settings/manage-roles',
@@ -55,6 +55,7 @@ export const AppStates: States = [
     state: 'settings.manage-employees',
     url: '/settings/manage-employees',
     roleCodes: [Roles.ADMINISTRATOR, Roles.HR],
+    isHome: 'Y',
     menu: {
       routerLink: '/settings/manage-employees',
       label: 'Employees',

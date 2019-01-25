@@ -3,18 +3,24 @@
     <h4 class="page-title inline btn-rounded m-b-0 m-t-5">
       <em class="icon-people"></em>&nbsp;Employees Dashboard
     </h4>
-    <button
-      class="btn btn-primary btn-rounded btn-cons pull-right m-b-10"
-      style="min-width: 85px !important"
-    >
-      <em class="pg pg-download"></em>&nbsp;Sink
-    </button>
-    <button
-      class="btn btn-primary btn-rounded btn-cons pull-right m-b-10"
-      style="min-width: 85px !important"
-    >
-      <em class="pg pg-plus"></em>&nbsp;Add
-    </button>
+    <div class="dropdown dropdown-default pull-right" dropdown>
+      <button
+        style="width: 135px;"
+        class="btn dropdown-toggle btn-default"
+        type="button"
+        dropdownToggle
+      >
+        <em class="icon-list"></em>&nbsp;&nbsp;Actions
+      </button>
+      <div *dropdownMenu class="dropdown-menu" role="menu">
+        <a class="dropdown-item p-l-15">
+          <em class="pg pg-plus"></em>&nbsp;&nbsp;New Employee
+        </a>
+        <a class="dropdown-item p-l-15">
+          <em class="pg pg-download"></em>&nbsp;&nbsp;Sink GreyTip
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -41,7 +47,7 @@
       <div class="pull-right">
         <span
           class="input-group-text transparent m-t-5"
-          style="border: 0px !important;font-size: 16px;color: #0090d9;cursor: pointer;"
+          style="border: 0px !important;font-size: 16px;color: #5e5e5e;cursor: pointer;"
           (click)="employeeStore.query()"
         >
           <i class="icon-refresh"></i>

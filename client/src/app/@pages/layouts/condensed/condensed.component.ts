@@ -22,8 +22,17 @@ export class CondensedComponent extends RootLayout implements OnInit {
     const userInfo = Utils.getUserInfo();
     this.currYear = Utils.getCurrYear();
     this.dpPic = Utils.getDPUrl();
+    const t = {
+      label: 'Adminstrator',
+      iconType: 'pg',
+      iconName: 'layouts2',
+      toggle: 'open',
+      submenu: []
+    };
+    this.menuLinks.push(t);
     Utils.getMenuStates(this.router).forEach((state: State) => {
-      this.menuLinks.push(state.menu);
+      // this.menuLinks.push(state.menu);
+      this.menuLinks[0].submenu.push(state.menu);
     });
     const authorizedState = Utils.getAuthorizedState(this.router);
     const routerState = Utils.getStateData(this.router);

@@ -1,0 +1,113 @@
+<div class="login-wrapper ">
+  <div class="bg-pic">
+    <img
+      src="assets/img/hd_bg_images/bg1.jpg"
+      pgRetina
+      src1x="assets/img/hd_bg_images/bg1.jpg"
+      src2x="assets/img/hd_bg_images/bg1.jpg"
+      alt=""
+      class="lazy"
+    >
+  </div>
+  <div class="login-container bg-white">
+    <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
+      <img
+        src="assets/img/logo.png"
+        alt="logo"
+        pgRetina
+        src1x="assets/img/logo.png"
+        src2x="assets/img/logo_2x.png"
+        width="78"
+        height="22"
+      >
+
+      <p class="p-t-35">Sign into your sales account</p>
+      <form
+        class="p-t-15"
+        role="form"
+        autocomplete="on"
+        [formGroup]="loginForm"
+        (ngSubmit)="login()"
+      >
+        <div formGroupName="loginInfo">
+          <div
+            pgFormGroupDefault
+            class="form-group form-group-default"
+            [class.has-error]="!isFieldValid('userName')"
+          >
+            <label>Login</label>
+            <input
+              type="text"
+              id="userName"
+              name="userName"
+              formControlName="userName"
+              required
+              placeholder="User Name"
+              class="form-control"
+            >
+          </div>
+          <div *ngIf="!isFieldValid('userName')">
+            <label class="error">This field is required.</label>
+          </div>
+          <div
+            pgFormGroupDefault
+            class="form-group form-group-default"
+            [class.has-error]="!isFieldValid('password')"
+          >
+            <label>Password</label>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Credentials"
+              id="password"
+              name="password"
+              formControlName="password"
+              required
+            >
+          </div>
+          <div *ngIf="!isFieldValid('password')">
+            <label class="error">This field is required.
+            </label>
+          </div>
+          <div class="row">
+            <div class="col-md-6 no-padding sm-p-l-10">
+              <div class="checkbox ">
+                <input
+                  type="checkbox"
+                  value="1"
+                  id="checkbox1"
+                >
+                <label for="checkbox1">Keep Me Signed in</label>
+              </div>
+            </div>
+            <div class="col-md-6 d-flex align-items-center justify-content-end">
+              <a
+                href="javascript:void(0)"
+                class="text-info small"
+              >Help? Contact Support</a>
+            </div>
+          </div>
+          <button
+            class="btn btn-primary btn-cons m-t-10"
+            type="submit"
+            [class.disabled]="loginForm.invalid || isBusy"
+          >
+            <span *ngIf="isBusy"><em class="fa fa-refresh fa-spin"></em>&nbsp;Logging...</span>
+            <span *ngIf="!isBusy">Sign in</span>
+          </button>
+        </div>
+      </form>
+      <div class="pull-bottom sm-pull-bottom">
+        <div class="m-b-30 p-r-80 sm-m-t-20 sm-p-r-15 sm-p-b-20 clearfix">
+          <div class="col-sm-12 no-padding m-t-10">
+            <p>
+              <small>
+                Dont have an account? contact your admin
+              </small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
