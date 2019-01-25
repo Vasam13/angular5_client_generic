@@ -773,49 +773,8 @@
             </div>
           </pg-tab>
           <pg-tab>
-            <ng-template #TabHeading> Hello Two </ng-template>
-            <div class="row">
-              <div class="col-lg-12">
-                <h3>
-                  “ Nothing is <span class="semi-bold">impossible</span>, the
-                  word itself says 'I'm
-                  <span class="semi-bold">possible</span>'! ”
-                </h3>
-                <p>
-                  A style represents visual customizations on top of a layout.
-                  By editing a style, you can use Squarespace's visual interface
-                  to customize your...
-                </p>
-                <br />
-                <p class="pull-right">
-                  <button
-                    type="button"
-                    class="btn btn-default btn-cons"
-                  >
-                    White
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-success btn-cons"
-                  >
-                    Success
-                  </button>
-                </p>
-              </div>
-            </div>
-          </pg-tab>
-          <pg-tab>
-            <ng-template #TabHeading> Hello Three </ng-template>
-            <div class="row">
-              <div class="col-lg-12">
-                <h3>Follow us &amp; get updated!</h3>
-                <p>
-                  Instantly connect to what's most important to you. Follow your
-                  friends, experts, favorite celebrities, and breaking news.
-                </p>
-                <br />
-              </div>
-            </div>
+            <ng-template #TabHeading><em class="icon-layers"></em>&nbsp;Attendence</ng-template>
+              <app-attendence [employeeRow] = employeeRow></app-attendence>
           </pg-tab>
         </pg-tabset>
       </div>

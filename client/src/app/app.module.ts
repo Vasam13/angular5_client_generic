@@ -97,6 +97,7 @@ import { EmailActionsComponent } from './@shared/email-actions/email-actions.com
 import { GlobalTemplatesComponent } from './@shared/global-templates/global-templates.component';
 import { ManageEmployeesComponent } from './@application/manage-employees/manage-employees.component';
 import { EmployeeDetailsComponent } from './@application/employee-details/employee-details.component';
+import { AttendenceComponent } from './@application/employee-details/attendence/attendence.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -144,7 +145,8 @@ export class AppHammerConfig extends HammerGestureConfig {
     EmailActionsComponent,
     GlobalTemplatesComponent,
     ManageEmployeesComponent,
-    EmployeeDetailsComponent
+    EmployeeDetailsComponent,
+    AttendenceComponent
   ],
   imports: [
     MessageModule,
