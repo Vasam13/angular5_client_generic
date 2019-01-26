@@ -1,14 +1,31 @@
 <div class="row column-seperation">
-  <div class="col-lg-12" *ngIf="employeeRow">
-    <div class="btn-toolbar m-t-10 pull-right" role="toolbar">
+  <div class="col-lg-12">
+    <div class="btn-toolbar m-t-5 pull-right" role="toolbar">
       <div class="btn-group">
-        <button btnradio="Left" class="btn btn-default" type="button">
-          Calender
+        <button
+          [(ngModel)]="viewType"
+          btnRadio="calender"
+          class="btn btn-default"
+          type="button"
+        >
+          <i class="icon-calendar"></i>&nbsp;Calender
         </button>
-        <button btnradio="Middle" class="btn btn-default" type="button">
-          Table
+        <button
+          [(ngModel)]="viewType"
+          btnRadio="table"
+          class="btn btn-default"
+          type="button"
+        >
+          <i class="icon-grid"></i>&nbsp;Table
         </button>
       </div>
     </div>
   </div>
 </div>
+
+<div class="row" *ngIf="viewType === 'calender'">
+  <div class="col-lg-6"></div>
+  <div class="col-lg-6"></div>
+</div>
+
+<div class="row" *ngIf="viewType === 'table'"></div>

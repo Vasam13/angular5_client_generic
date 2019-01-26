@@ -9,6 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class AttendenceComponent implements OnInit {
   @Input()
   employeeRow: Row;
+  viewType = 'calender';
 
   constructor() {}
 
