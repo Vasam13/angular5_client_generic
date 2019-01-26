@@ -49,6 +49,7 @@ import { pgSelectModule } from './@pages/components/select/select.module';
 import { pgTagModule } from './@pages/components/tag/tag.module';
 
 import { SalesComponent } from './@application/sales/sales.component';
+import { FullCalendarModule } from 'ng-fullcalendar';
 
 // Basic Bootstrap Modules
 import {
@@ -149,6 +150,7 @@ export class AppHammerConfig extends HammerGestureConfig {
     AttendenceComponent
   ],
   imports: [
+    FullCalendarModule,
     MessageModule,
     BrowserModule,
     BrowserAnimationsModule,

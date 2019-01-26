@@ -24,8 +24,37 @@
 </div>
 
 <div class="row" *ngIf="viewType === 'calender'">
-  <div class="col-lg-6"></div>
-  <div class="col-lg-6"></div>
+  <div class="col-lg-6">
+    <div *ngIf="calendarOptions">
+      <ng-fullcalendar
+        #ucCalendar
+        [options]="calendarOptions"
+        (eventClick)="eventClick($event.detail)"
+        (clickButton)="calnderButtonClick($event.detail)"
+      ></ng-fullcalendar>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <pg-tabset tabAnimation="slide-left" Type="simple" ShowPagination="true">
+      <pg-tab>
+        <ng-template #TabHeading>
+          <em class="icon-list"></em>&nbsp;Details
+        </ng-template>
+        <div class="row column-seperation" *ngIf="calenderSelctedDate">
+          <div class="col-lg-12">
+            <h3>{{ calenderSelctedDate.format('DD MMMM YYYY') }}</h3>
+            <hr class="m-5" />
+            <p>No records found!</p>
+          </div>
+        </div>
+      </pg-tab>
+      <pg-tab>
+        <ng-template #TabHeading>
+          <em class="icon-wallet"></em>&nbsp;Swipes
+        </ng-template>
+      </pg-tab>
+    </pg-tabset>
+  </div>
 </div>
 
 <div class="row" *ngIf="viewType === 'table'"></div>

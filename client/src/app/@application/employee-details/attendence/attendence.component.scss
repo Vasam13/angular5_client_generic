@@ -1,0 +1,30 @@
+/deep/ .calnder-employee-shift {
+  background-color: transparent !important;
+  border: none;
+}
+
+/deep/ .calnder-employee-shift .fc-time {
+  display: none;
+}
+/deep/ .calnder-employee-shift .fc-content {
+  text-align: right;
+  font-size: 14px;
+}
+
+/deep/ .calnder-employee-attendence {
+  background-color: transparent !important;
+  text-align: center;
+  font-size: 18px;
+  border: none;
+  font-weight: bold;
+}
+
+/deep/ .attendence-present {
+  color: #28a745 !important;
+}
+/deep/ .attendence-absent {
+  color: #dc3545 !important;
+}
+/deep/ .attendence-holiday {
+  color: #007bff !important;
+}

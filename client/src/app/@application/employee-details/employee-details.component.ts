@@ -97,32 +97,36 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
       this.employeeStore.whereClause =
         'user_id = ? and (deleted = ? or deleted is null)';
       this.employeeStore.whereClauseParams = [this.employeeId, 'N'];
-      this.extraInfoStore.whereClause = 'user_id = ?';
-      this.extraInfoStore.whereClauseParams = [this.employeeId];
+      this.extraInfoStore.whereClause = 'employee_no = ?';
 
       this.employeeStore.query().then(response => {
         if (response.status === Status.SUCCESS && response.rows.length > 0) {
           this.employeeRow = response.rows[0];
           this.copyRowToForm('details', this.employeeRow);
+          this.queryExtraInfo();
           this.queryStateStores();
         } else {
           this.throwError1(this.employeeId);
         }
       });
-      this.extraInfoStore.query().then(response => {
-        if (response.status === Status.SUCCESS && response.rows.length > 0) {
-          this.extraInfoRows = response.rows;
-          response.rows.forEach((row: Row, index) => {
-            const control = new FormGroup(this.getExtraInfoFormGroup());
-            (<FormArray>this.employeeForm.get('extraInfo')).push(control);
-          });
-
-          this.copyRowsToForm('extraInfo', this.extraInfoRows);
-        } else {
-          this.throwError1(this.employeeId);
-        }
-      });
     }
+  }
+
+  queryExtraInfo() {
+    this.extraInfoStore.whereClauseParams = [this.employeeRow.employeeNo];
+    this.extraInfoStore.query().then(response => {
+      if (response.status === Status.SUCCESS && response.rows.length > 0) {
+        this.extraInfoRows = response.rows;
+        response.rows.forEach((row: Row, index) => {
+          const control = new FormGroup(this.getExtraInfoFormGroup());
+          (<FormArray>this.employeeForm.get('extraInfo')).push(control);
+        });
+
+        this.copyRowsToForm('extraInfo', this.extraInfoRows);
+      } else {
+        this.throwError1(this.employeeId);
+      }
+    });
   }
 
   gotoHome() {
@@ -184,7 +188,6 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
     const control = form.controls[field];
     return control.invalid && (control.dirty || control.touched);
   }
-
 
   ngOnDestroy() {
     this.employeeStore.destroy();
