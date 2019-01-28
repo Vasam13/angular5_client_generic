@@ -41,17 +41,204 @@
           <em class="icon-list"></em>&nbsp;Details
         </ng-template>
         <div class="row column-seperation" *ngIf="calenderSelctedDate">
-          <div class="col-lg-12">
-            <h3>{{ calenderSelctedDate.format('DD MMMM YYYY') }}</h3>
-            <hr class="m-5" />
-            <p>No records found!</p>
-          </div>
+          <pgcard
+            TimeOut="3000"
+            AdditionalClasses="widget-11-2 card card-condensed no-margin widget-loader-circle full-height d-flex flex-column"
+            ProgressType="bar"
+            Maximize="false"
+            Toggle="false"
+            Close="false"
+            BodyClass="no-padding"
+            HeaderClass="top-right"
+          >
+            <div
+              class="padding-15"
+              style="border-bottom: 1px solid rgba(0,0,0,.125);"
+            >
+              <div class="pull-left">
+                <h3 class="text-primary semi-bold no-margin">
+                  {{ calenderSelctedDate.format('DD MMMM YYYY') }} (GS)
+                </h3>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="auto-overflow" style="height:357px">
+              <table class="table table-condensed table-hover">
+                <tbody>
+                  <tr>
+                    <td class=" w-25 b-r b-dashed b-grey">
+                      Shift Time
+                    </td>
+                    <td class="w-25">
+                      <span >09:30-18:30</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class=" w-25 b-r b-dashed b-grey">
+                      Shift duration (In hours)
+                    </td>
+                    <td class="w-25">
+                      <span >09:00</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class=" w-25 b-r b-dashed b-grey">
+                      Status
+                    </td>
+                    <td class="w-25">
+                      <span >Present</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class=" w-25 b-r b-dashed b-grey">
+                      In Time
+                    </td>
+                    <td class="w-25">
+                      <span >11:26:44</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class=" w-25 b-r b-dashed b-grey">
+                      Out Time
+                    </td>
+                    <td class="w-25">
+                      <span >22:38:54</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class=" w-25 b-r b-dashed b-grey">
+                      Total duration (In hours)
+                    </td>
+                    <td class="w-25">
+                      <span >11:12</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class=" w-25 b-r b-dashed b-grey">
+                      Early Coming
+                    </td>
+                    <td class="w-25">
+                      <span >00:00</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class=" w-25 b-r b-dashed b-grey">
+                      Late going (In hours)
+                    </td>
+                    <td class="w-25">
+                      <span >01:57</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class=" w-25 b-r b-dashed b-grey">
+                      Over Time (In hours)
+                    </td>
+                    <td class="w-25">
+                      <span >02:12</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class=" w-25 b-r b-dashed b-grey">
+                      Detailed Status
+                    </td>
+                    <td class="w-25">
+                      <span >Present</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </pgcard>
         </div>
       </pg-tab>
       <pg-tab>
         <ng-template #TabHeading>
           <em class="icon-wallet"></em>&nbsp;Swipes
         </ng-template>
+        <div class="row column-seperation" *ngIf="calenderSelctedDate">
+          <pgcard
+            TimeOut="3000"
+            AdditionalClasses="widget-11-2 card card-condensed no-margin widget-loader-circle full-height d-flex flex-column"
+            ProgressType="bar"
+            Maximize="false"
+            Toggle="false"
+            Close="false"
+            BodyClass="no-padding"
+            HeaderClass="top-right"
+          >
+            <div
+              class="padding-15"
+              style="border-bottom: 1px solid rgba(0,0,0,.125);"
+            >
+              <div class="pull-left">
+                <h3 class="text-primary semi-bold no-margin">
+                  {{ calenderSelctedDate.format('DD MMMM YYYY') }} (GS)
+                </h3>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+
+            <div class="auto-overflow" style="height:357px">
+              <table class="table table-condensed table-hover">
+                <thead>
+                  <td style="border-top: none; border-bottom: 1px solid #dee2e6;">
+                    Swipe Time
+                  </td>
+                  <td style="border-top: none; border-bottom: 1px solid #dee2e6;">
+                    In/Out
+                  </td>
+                  <td style="border-top: none; border-bottom: 1px solid #dee2e6;">
+                    Total hours
+                  </td>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class=" w-25 b-r b-dashed b-grey">
+                      11:26:44
+                    </td>
+                    <td class="w-25 b-r b-dashed b-grey">
+                      <span >In</span>
+                    </td>
+                    <td class="w-25" rowspan="2">
+                      <span >02:30</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class=" w-25 b-r b-dashed b-grey">
+                      13:07:35
+                    </td>
+                    <td class="w-25 b-r b-dashed b-grey">
+                      <span >Out</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class=" w-25 b-r b-dashed b-grey text-danger"
+                    >
+                      13:11:13
+                    </td>
+                    <td class="w-25 b-r b-dashed b-grey">
+                      <span class="font-montserrat fs-18 text-danger">In</span>
+                    </td>
+                    <td class="w-25" rowspan="2">
+                      <span class="font-montserrat fs-18  text-danger"
+                        >00:00</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class=" w-25 b-r b-dashed b-grey">
+                      13:11:13
+                    </td>
+                    <td class="w-25 b-r b-dashed b-grey">
+                      <span >Out</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </pgcard>
+        </div>
       </pg-tab>
     </pg-tabset>
   </div>

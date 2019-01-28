@@ -113,7 +113,7 @@ export class SalesComponent implements OnInit, OnDestroy {
     let url =
       'ext=application/pdf&type=pdf&export=view&ds=sales&column=pdf&pk=sales_id&pkv=' +
       row.salesId;
-    url = '/api/download/' + btoa(url);
+    url = 'api/download/' + btoa(url);
     window.open(url, '_blank');
   }
 

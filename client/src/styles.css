@@ -117,6 +117,10 @@ select[disabled] {
   color: #fff;
 }
 
+.text-primary-2 {
+  color: #007bff!important;
+}
+
 input[type='date'],
 input[type='time'],
 input[type='datetime-local'],

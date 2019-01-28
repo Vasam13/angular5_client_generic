@@ -21,6 +21,7 @@
   "window.zoomLevel": 0,
   "workbench.statusBar.feedback.visible": false,
   "files.exclude": {
+    "**/build": true,
     "**/.git/objects": true,
     "**/.git/subtree-cache": true,
     "**/client/node_modules": true,

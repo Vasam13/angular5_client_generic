@@ -2,7 +2,7 @@ import { Row } from '@types';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { CalendarComponent } from 'ng-fullcalendar';
 import { Options } from 'fullcalendar';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-attendence',

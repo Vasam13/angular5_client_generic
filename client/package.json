@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json --poll=2000",
     "clean": "rm -rf ./../build/*",
-    "build-prod": "npm run clean && ng build --prod",
+    "build-prod": "npm run clean && ng build --prod  --base-href=/Java_Rest_Server/",
     "build-client-prod": "npm run build-prod",
     "test": "ng test",
     "lint": "ng lint",

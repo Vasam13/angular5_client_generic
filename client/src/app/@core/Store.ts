@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 import { MessageService } from '@message';
 import { v4 as uuid } from 'uuid';
 import { Utils } from '@utils';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Injectable()
 export class StoreService {

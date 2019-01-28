@@ -74,7 +74,7 @@ class APIManagerImpl implements APIManager {
     params: DMLRequest
   ): Observable<DMLResponse> {
     return Observable.create(observer => {
-      const api = '/api/save/' + tableName + '/' + alias;
+      const api = 'api/save/' + tableName + '/' + alias;
       const subject = this.post(api, params).subscribe(
         (_response: Response) => {
           this.notifySaveError(_response);
@@ -93,7 +93,7 @@ class APIManagerImpl implements APIManager {
     params?: Map
   ): Observable<QueryResponse> {
     return Observable.create(observer => {
-      const api = '/api/query/' + tableName + '/' + alias;
+      const api = 'api/query/' + tableName + '/' + alias;
       const subject = this.post(api, params).subscribe(
         (_response: Response) => {
           this.notifySaveError(_response);
@@ -116,7 +116,7 @@ class APIManagerImpl implements APIManager {
   }
 
   public login(userName: string, password: string): Observable<boolean> {
-    const api = '/api/signin';
+    const api = 'api/signin';
     const data = { userName, password };
     return Observable.create(observer => {
       const subject = this.post(api, data).subscribe((response: Response) => {

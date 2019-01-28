@@ -222,7 +222,7 @@ export class Utils {
     } else {
       ppUrl += userId;
     }
-    return '/api/download/' + btoa(ppUrl);
+    return 'api/download/' + btoa(ppUrl);
   }
 
   static getUserInfo() {
